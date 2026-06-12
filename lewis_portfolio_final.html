@@ -1,1255 +1,900 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0a0f" />
-  <meta name="description" content="Lewis Munene Mutabari – IT Developer & Creator Portfolio" />
-  <title>Lewis Munene Mutabari | Portfolio</title>
-  <link rel="manifest" href="#" id="manifest-link" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --surface2: #1a1a26;
-      --surface3: #111119;
-      --accent: #7c5cfc;
-      --accent2: #f72585;
-      --accent3: #00f5d4;
-      --accent4: #ffbe0b;
-      --text: #e8e8f0;
-      --muted: #7878a0;
-      --border: rgba(124,92,252,0.18);
-      --glow: rgba(124,92,252,0.35);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Outfit', sans-serif; font-weight: 300;
-      line-height: 1.7; overflow-x: hidden;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none; opacity: .5;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:10px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:34px;height:34px;background:#1D9E75;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px}
+.brand-name{font-size:14px;font-weight:500}
+.brand-sub{font-size:11px;color:var(--color-text-secondary)}
+.clock{font-size:12px;color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.layout{display:flex;flex:1}
+.sidebar{width:190px;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:10px 0;flex-shrink:0}
+.ns{font-size:10px;color:var(--color-text-tertiary);padding:10px 14px 3px;text-transform:uppercase;letter-spacing:.06em}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--color-text-secondary);border-left:2px solid transparent;transition:all .12s}
+.ni:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.ni.on{background:var(--color-background-secondary);color:#0F6E56;border-left-color:#1D9E75;font-weight:500}
+.ni i{font-size:15px}
+.content{flex:1;padding:18px;overflow-y:auto}
+.pg{display:none}.pg.on{display:block}
+.ptitle{font-size:17px;font-weight:500;margin-bottom:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.mc{background:var(--color-background-secondary);border-radius:8px;padding:12px;min-width:0}
+.mc-l{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.mc-v{font-size:20px;font-weight:500}
+.mc-s{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.st{font-size:13px;font-weight:500}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.bfree{background:#E1F5EE;color:#0F6E56}
+.bbusy{background:#FAECE7;color:#993C1D}
+.bwarn{background:#FAEEDA;color:#854F0B}
+.bdanger{background:#FCEBEB;color:#A32D2D}
+.btn{padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);display:inline-flex;align-items:center;gap:5px;transition:all .12s}
+.btn:hover{background:var(--color-background-secondary)}
+.bp{background:#1D9E75;color:#fff;border-color:#1D9E75}.bp:hover{background:#0F6E56;border-color:#0F6E56}
+.bd{background:#D85A30;color:#fff;border-color:#D85A30}.bd:hover{background:#993C1D}
+.bsm{padding:4px 9px;font-size:11px}
+.timer{font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;color:#1D9E75;margin:4px 0}
+.fi{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.fl{font-size:11px;color:var(--color-text-secondary)}
+.inp{padding:7px 9px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;width:100%}
+.inp:focus{border-color:#1D9E75;box-shadow:0 0 0 2px rgba(29,158,117,.12)}
+.sel{padding:7px 9px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;width:100%;cursor:pointer}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.tbl th{text-align:left;padding:7px 10px;color:var(--color-text-secondary);font-weight:500;border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px}
+.tbl td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--color-background-secondary)}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:14px}
+.st2{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 10px;cursor:pointer;text-align:center;transition:all .12s}
+.st2:hover{border-color:#1D9E75;background:#E1F5EE}
+.st2 i{font-size:20px;color:#1D9E75;margin-bottom:5px;display:block}
+.st2 .sn{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.st2 .sp{font-size:10px;color:var(--color-text-secondary);margin-top:1px}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:7px 13px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all .12s;white-space:nowrap}
+.tab.on{color:#1D9E75;border-bottom-color:#1D9E75;font-weight:500}
+.tab:hover{color:var(--color-text-primary)}
+.alert{padding:8px 12px;border-radius:8px;font-size:12px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.aok{background:#E1F5EE;color:#0F6E56;border:0.5px solid #9FE1CB}
+.awk{background:#FAEEDA;color:#854F0B;border:0.5px solid #FAC775}
+.aer{background:#FCEBEB;color:#A32D2D;border:0.5px solid #F7C1C1}
+.empty{text-align:center;padding:28px;color:var(--color-text-tertiary);font-size:12px}
+.br{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.br:last-child{border-bottom:none}
+.mover{background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;min-height:420px;border-radius:12px;margin-bottom:14px}
+.modal{background:var(--color-background-primary);border-radius:12px;padding:18px;width:320px;border:0.5px solid var(--color-border-tertiary)}
+.mti{font-size:14px;font-weight:500;margin-bottom:12px}
+.mft{display:flex;gap:7px;justify-content:flex-end;margin-top:12px}
+.divl{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:10px 0}
+.inv-low{color:#D85A30;font-weight:500}
+.pctag{display:inline-block;background:#E1F5EE;color:#0F6E56;font-size:10px;padding:2px 7px;border-radius:20px;margin-bottom:6px}
+</style>
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 3rem;
-      background: rgba(10,10,15,0.9); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-    .logo {
-      font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -.02em;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-family: 'DM Mono', monospace; font-size: .78rem;
-      color: var(--muted); text-decoration: none; letter-spacing: .08em;
-      text-transform: uppercase; transition: color .3s;
-    }
-    .nav-links a:hover { color: var(--accent3); }
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.6rem; border-radius: 8px;
-      font-family: 'DM Mono', monospace; font-size: .8rem;
-      font-weight: 400; letter-spacing: .06em; text-decoration: none;
-      transition: all .25s; cursor: pointer; border: none;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; box-shadow: 0 4px 24px rgba(124,92,252,.35);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,92,252,.5); }
-    .btn-outline {
-      background: transparent; color: var(--accent3);
-      border: 1px solid rgba(0,245,212,.35);
-    }
-    .btn-outline:hover { background: rgba(0,245,212,.08); transform: translateY(-2px); }
-    .btn-ghost {
-      background: transparent; color: var(--muted); border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+<h2 class="sr-only">Techflex Cyber Kangeta — full management app with PC sessions, e-Citizen services, billing, inventory, and reports</h2>
 
-    /* ── SECTIONS ── */
-    section { padding: 6rem 3rem; position: relative; }
-    .section-label {
-      font-family: 'DM Mono', monospace; font-size: .72rem;
-      color: var(--accent); letter-spacing: .18em; text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; letter-spacing: -.03em; margin-bottom: 1rem;
-    }
-    .section-desc { color: var(--muted); max-width: 560px; margin-bottom: 3rem; }
-    .max-w { max-width: 1100px; margin: 0 auto; }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 8rem 3rem 5rem; position: relative; overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 30% 40%, rgba(124,92,252,.14) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(247,37,133,.09) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 60% 20%, rgba(0,245,212,.06) 0%, transparent 60%);
-    }
-    /* floating orbs */
-    .orb {
-      position: absolute; border-radius: 50%; filter: blur(80px); opacity: .18; z-index: 0;
-      animation: drift 12s ease-in-out infinite alternate;
-    }
-    .orb1 { width: 500px; height: 500px; background: var(--accent); top: -10%; left: -5%; animation-delay: 0s; }
-    .orb2 { width: 300px; height: 300px; background: var(--accent2); bottom: 5%; right: 5%; animation-delay: -4s; }
-    .orb3 { width: 200px; height: 200px; background: var(--accent3); top: 40%; right: 20%; animation-delay: -8s; }
-    @keyframes drift { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,20px) scale(1.05)} }
-    .hero-content { position: relative; z-index: 1; max-width: 900px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: rgba(0,245,212,.1); border: 1px solid rgba(0,245,212,.3);
-      color: var(--accent3); font-family: 'DM Mono', monospace;
-      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-      padding: .4rem 1rem; border-radius: 100px; margin-bottom: 1.8rem;
-    }
-    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); animation: blink 2s infinite; }
-    h1 {
-      font-family: 'Syne', sans-serif; font-size: clamp(3rem, 7vw, 6rem);
-      font-weight: 800; line-height: 1.05; letter-spacing: -.04em; margin-bottom: .5rem;
-    }
-    .h1-name {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .h1-subtitle {
-      font-family: 'DM Mono', monospace; font-size: clamp(1rem, 2vw, 1.35rem);
-      font-weight: 300; color: var(--muted); letter-spacing: .04em;
-      margin-bottom: 1.5rem;
-    }
-    .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 580px; margin-bottom: 2.5rem; }
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .hero-stats {
-      display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem;
-      border-top: 1px solid var(--border); flex-wrap: wrap;
-    }
-    .hero-stat .num {
-      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-stat .lbl { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
-
-    /* ── ABOUT ── */
-    #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .about-text p { color: var(--muted); margin-bottom: 1.2rem; }
-    .about-text .highlight { color: var(--accent3); font-weight: 500; }
-    .skills-grid { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
-    .skill-tag {
-      font-family: 'DM Mono', monospace; font-size: .72rem;
-      background: rgba(124,92,252,.12); border: 1px solid rgba(124,92,252,.25);
-      color: var(--accent); padding: .3rem .8rem; border-radius: 4px;
-      transition: all .2s;
-    }
-    .skill-tag:hover { background: rgba(124,92,252,.25); transform: translateY(-1px); }
-    .about-visual { display: flex; align-items: center; justify-content: center; }
-    .avatar-ring {
-      width: 280px; height: 280px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
-      padding: 3px; position: relative; animation: rotateBorder 8s linear infinite;
-    }
-    @keyframes rotateBorder { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
-    .avatar-inner {
-      width: 100%; height: 100%; border-radius: 50%; background: var(--surface);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif;
-    }
-    .avatar-initials { font-size: 3.5rem; font-weight: 800; line-height: 1; }
-    .avatar-name { font-size: .7rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: .3rem; }
-
-    /* ── EDUCATION ── */
-    #education { background: var(--bg); }
-    .edu-timeline { position: relative; padding-left: 2rem; }
-    .edu-timeline::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-      border-radius: 2px;
-    }
-    .edu-card {
-      position: relative; margin-bottom: 2rem; padding: 2rem;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; transition: all .3s;
-    }
-    .edu-card::before {
-      content: ''; position: absolute; left: -2.55rem; top: 1.8rem;
-      width: 14px; height: 14px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(124,92,252,.2), 0 0 0 8px rgba(124,92,252,.07);
-    }
-    .edu-card:hover { transform: translateX(6px); border-color: rgba(124,92,252,.4); box-shadow: 0 8px 32px rgba(124,92,252,.1); }
-    .edu-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
-    .edu-degree { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
-    .edu-badge {
-      font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .08em;
-      background: rgba(0,245,212,.1); border: 1px solid rgba(0,245,212,.25);
-      color: var(--accent3); padding: .25rem .7rem; border-radius: 100px;
-      white-space: nowrap;
-    }
-    .edu-institution { color: var(--accent); font-weight: 500; margin-bottom: .3rem; display: flex; align-items: center; gap: .5rem; }
-    .edu-institution::before { content: '🏛️'; font-size: .9rem; }
-    .edu-duration { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--muted); display: flex; align-items: center; gap: .4rem; }
-    .edu-duration::before { content: '📅'; font-size: .8rem; }
-    .edu-desc { color: var(--muted); font-size: .9rem; margin-top: .8rem; }
-    .edu-modules { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
-    .edu-module {
-      font-family: 'DM Mono', monospace; font-size: .65rem;
-      background: rgba(124,92,252,.1); border: 1px solid rgba(124,92,252,.2);
-      color: var(--accent); padding: .2rem .6rem; border-radius: 3px;
-    }
-
-    /* ── PROJECTS ── */
-    #projects { background: var(--surface); border-top: 1px solid var(--border); }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-    .project-card {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-      transition: all .3s; display: flex; flex-direction: column;
-      position: relative;
-    }
-    .project-card-top {
-      height: 6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-    }
-    .project-card:nth-child(2) .project-card-top { background: linear-gradient(90deg, var(--accent2), var(--accent4)); }
-    .project-card:nth-child(3) .project-card-top { background: linear-gradient(90deg, var(--accent3), var(--accent)); }
-    .project-card:nth-child(4) .project-card-top { background: linear-gradient(90deg, var(--accent4), var(--accent2)); }
-    .project-card:nth-child(5) .project-card-top { background: linear-gradient(90deg, var(--accent), var(--accent3)); }
-    .project-card:nth-child(6) .project-card-top { background: linear-gradient(90deg, var(--accent2), var(--accent3)); }
-    .project-card:hover { transform: translateY(-6px); border-color: rgba(124,92,252,.45); box-shadow: 0 20px 60px rgba(124,92,252,.15); }
-    .project-body { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
-    .project-icon-row { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
-    .project-icon {
-      width: 46px; height: 46px; border-radius: 10px;
-      background: var(--surface); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-    }
-    .project-num { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--muted); }
-    .project-card h3 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: .6rem; }
-    .project-card p { color: var(--muted); font-size: .88rem; line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
-    .project-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .6rem; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .project-tag {
-      font-family: 'DM Mono', monospace; font-size: .62rem;
-      background: rgba(0,245,212,.07); border: 1px solid rgba(0,245,212,.18);
-      color: var(--accent3); padding: .18rem .55rem; border-radius: 3px;
-    }
-    .project-link {
-      font-family: 'DM Mono', monospace; font-size: .68rem; color: var(--accent);
-      text-decoration: none; display: flex; align-items: center; gap: .3rem;
-      transition: gap .2s;
-    }
-    .project-link:hover { gap: .6rem; }
-
-    /* ── CONTACT ── */
-    #contact { background: var(--bg); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-    .contact-info h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
-    .contact-info p { color: var(--muted); margin-bottom: 2rem; }
-    .contact-links { display: flex; flex-direction: column; gap: .9rem; }
-    .contact-link {
-      display: flex; align-items: center; gap: 1rem;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1rem 1.2rem;
-      text-decoration: none; color: var(--text); transition: all .25s;
-    }
-    .contact-link:hover { border-color: rgba(124,92,252,.5); transform: translateX(6px); background: rgba(124,92,252,.07); }
-    .contact-icon { font-size: 1.3rem; width: 2.2rem; flex-shrink: 0; }
-    .contact-label { font-family: 'DM Mono', monospace; font-size: .62rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
-    .contact-value { font-size: .92rem; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--surface); border-top: 1px solid var(--border);
-      padding: 0; overflow: hidden;
-    }
-    .footer-manifesto {
-      background: linear-gradient(135deg, rgba(124,92,252,.08), rgba(247,37,133,.06), rgba(0,245,212,.04));
-      padding: 4rem 3rem;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .footer-manifesto::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(124,92,252,.08) 0%, transparent 70%);
-    }
-    .footer-manifesto-text {
-      position: relative; z-index: 1;
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-      font-weight: 800; letter-spacing: -.01em; line-height: 1.35;
-      background: linear-gradient(135deg, var(--text) 0%, var(--accent3) 40%, var(--accent) 80%, var(--accent2) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-    }
-    .footer-manifesto-sub {
-      position: relative; z-index: 1;
-      font-family: 'DM Mono', monospace; font-size: .8rem;
-      color: var(--muted); letter-spacing: .15em; text-transform: uppercase;
-      margin-top: 1rem;
-    }
-    .footer-divider { height: 1px; background: var(--border); }
-    .footer-bottom {
-      padding: 1.5rem 3rem; display: flex; align-items: center;
-      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-copy { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--muted); }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a {
-      font-family: 'DM Mono', monospace; font-size: .68rem;
-      color: var(--muted); text-decoration: none; transition: color .2s;
-    }
-    .footer-links a:hover { color: var(--accent3); }
-
-    /* ── CHATBOT FAB ── */
-    #chat-fab {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
-      width: 62px; height: 62px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; box-shadow: 0 4px 24px rgba(124,92,252,.5);
-      transition: all .3s;
-    }
-    #chat-fab:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 8px 40px rgba(124,92,252,.7); }
-    #chat-fab .pulse {
-      position: absolute; inset: -5px; border-radius: 50%;
-      background: rgba(124,92,252,.25); animation: pulse 2.5s infinite;
-    }
-    @keyframes pulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.2);opacity:0} }
-
-    /* ── CHATBOT PANEL ── */
-    #chat-panel {
-      position: fixed; bottom: 5.5rem; right: 2rem; z-index: 200;
-      width: min(430px, calc(100vw - 2rem));
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 18px; box-shadow: 0 28px 90px rgba(0,0,0,.7);
-      display: flex; flex-direction: column; overflow: hidden;
-      transform: translateY(20px) scale(.95); opacity: 0;
-      pointer-events: none; transition: all .35s cubic-bezier(.34,1.56,.64,1);
-    }
-    #chat-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
-    .chat-header {
-      background: linear-gradient(135deg, rgba(124,92,252,.22), rgba(247,37,133,.12));
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 1.2rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .chat-header-left { display: flex; align-items: center; gap: .8rem; }
-    .chat-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; position: relative;
-    }
-    .chat-avatar::after {
-      content: ''; position: absolute; bottom: 1px; right: 1px;
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--accent3); border: 2px solid var(--surface);
-    }
-    .chat-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; }
-    .chat-status {
-      font-family: 'DM Mono', monospace; font-size: .62rem;
-      display: flex; align-items: center; gap: .3rem; color: var(--muted);
-    }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); }
-    .status-dot.blink { animation: blink 2s infinite; }
-    .status-dot.offline { background: #ff6060; animation: none; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-    .chat-mode-toggle {
-      display: flex; gap: .3rem;
-      background: var(--surface2); border-radius: 8px; padding: .2rem;
-    }
-    .mode-btn {
-      font-family: 'DM Mono', monospace; font-size: .63rem;
-      padding: .28rem .65rem; border-radius: 6px; border: none; cursor: pointer;
-      background: transparent; color: var(--muted); transition: all .2s;
-    }
-    .mode-btn.active { background: var(--accent); color: #fff; }
-    .chat-close {
-      background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 1rem; padding: .3rem;
-      transition: all .2s; border-radius: 6px;
-    }
-    .chat-close:hover { color: var(--accent2); background: rgba(247,37,133,.1); }
-
-    /* Quick suggestions */
-    #chat-suggestions {
-      padding: .6rem 1rem; display: flex; gap: .5rem; flex-wrap: wrap;
-      border-bottom: 1px solid var(--border);
-      background: rgba(124,92,252,.04);
-    }
-    .suggestion {
-      font-family: 'DM Mono', monospace; font-size: .62rem;
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--muted); padding: .25rem .65rem; border-radius: 100px;
-      cursor: pointer; transition: all .2s; white-space: nowrap;
-    }
-    .suggestion:hover { background: rgba(124,92,252,.15); color: var(--accent); border-color: rgba(124,92,252,.4); }
-
-    /* messages */
-    #chat-messages {
-      flex: 1; overflow-y: auto; padding: 1rem;
-      display: flex; flex-direction: column; gap: .9rem;
-      min-height: 280px; max-height: 360px;
-    }
-    #chat-messages::-webkit-scrollbar { width: 3px; }
-    #chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-    .msg { display: flex; gap: .6rem; animation: msgIn .3s ease; }
-    @keyframes msgIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
-    .msg.user { flex-direction: row-reverse; }
-    .msg-bubble {
-      max-width: 80%; padding: .75rem 1rem;
-      border-radius: 14px; font-size: .875rem; line-height: 1.6;
-    }
-    .msg.bot .msg-bubble {
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text); border-bottom-left-radius: 3px;
-    }
-    .msg.user .msg-bubble {
-      background: linear-gradient(135deg, var(--accent), rgba(247,37,133,.85));
-      color: #fff; border-bottom-right-radius: 3px;
-    }
-    .msg-avatar {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      font-size: .8rem; margin-top: auto;
-    }
-    .typing-dots { display: flex; align-items: center; gap: 4px; padding: .5rem .8rem; }
-    .typing-dots span {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--muted); animation: bounce 1.3s infinite;
-    }
-    .typing-dots span:nth-child(2) { animation-delay: .18s; }
-    .typing-dots span:nth-child(3) { animation-delay: .36s; }
-    @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
-
-    /* API key */
-    #api-key-zone { padding: .9rem 1rem; border-bottom: 1px solid var(--border); display: none; }
-    #api-key-zone.show { display: block; }
-    #api-key-zone label { font-family: 'DM Mono', monospace; font-size: .62rem; color: var(--muted); display: block; margin-bottom: .4rem; letter-spacing: .08em; text-transform: uppercase; }
-    .api-row { display: flex; gap: .5rem; }
-    #api-key-input {
-      flex: 1; background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 8px; padding: .5rem .8rem;
-      color: var(--text); font-family: 'DM Mono', monospace; font-size: .73rem;
-      outline: none; transition: border-color .2s;
-    }
-    #api-key-input:focus { border-color: rgba(124,92,252,.5); }
-    #save-api-key {
-      background: var(--accent); border: none; border-radius: 8px;
-      color: #fff; padding: .5rem .9rem;
-      font-family: 'DM Mono', monospace; font-size: .7rem; cursor: pointer;
-      transition: opacity .2s; white-space: nowrap;
-    }
-    #save-api-key:hover { opacity: .85; }
-
-    /* chat input */
-    .chat-footer {
-      border-top: 1px solid var(--border); padding: .8rem 1rem;
-      display: flex; gap: .6rem; align-items: flex-end;
-    }
-    #chat-input {
-      flex: 1; background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 10px; padding: .6rem .9rem;
-      color: var(--text); font-family: 'Outfit', sans-serif; font-size: .87rem;
-      resize: none; outline: none; transition: border-color .2s; max-height: 110px;
-    }
-    #chat-input:focus { border-color: rgba(124,92,252,.5); }
-    #chat-input::placeholder { color: var(--muted); }
-    #chat-send {
-      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; transition: all .2s;
-    }
-    #chat-send:hover { transform: scale(1.08) rotate(-5deg); }
-    #chat-send svg { fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-
-    /* PWA BANNER */
-    #install-banner {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
-      background: var(--surface2); border-top: 1px solid var(--border);
-      padding: 1rem 2rem; display: none; align-items: center;
-      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-    }
-    #install-banner.show { display: flex; }
-    #install-banner p { font-size: .88rem; }
-    #install-banner p span { color: var(--accent); font-weight: 500; }
-    .banner-btns { display: flex; gap: .8rem; }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      section { padding: 4rem 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; }
-      h1 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
-      .hero-stats { gap: 1.5rem; }
-      .footer-bottom { justify-content: center; text-align: center; }
-      .projects-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <div class="logo">LMM</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&fs=1&to=lewismune2003@gmail.com&su=Hello%20Lewis!%20Let's%20Work%20Together&body=Hi%20Lewis%2C%0A%0AI%20found%20your%20portfolio%20and%20I%27d%20love%20to%20connect!%0A%0ABest%20regards" target="_blank" rel="noopener">
-    ✉ Hire Me
-  </a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <span class="hero-badge">Available for projects</span>
-    <h1>Lewis Munene<br/><span class="h1-name">Mutabari</span></h1>
-    <p class="h1-subtitle">// IT Developer · UI/UX Designer · Creator</p>
-    <p class="hero-sub">Transforming ideas into elegant digital realities — from intelligent web applications to systems that genuinely move the needle. Currently pursuing my degree at Kirinyaga University.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="#projects">View My Work →</a>
-      <a class="btn btn-outline" href="https://mail.google.com/mail/?view=cm&fs=1&to=lewismune2003@gmail.com&su=Project%20Inquiry&body=Hi%20Lewis%2C%0A%0AI%27d%20love%20to%20discuss%20a%20project!%0A%0ABest%20regards" target="_blank" rel="noopener">✉ Get In Touch</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="num">4+</div><div class="lbl">Projects Built</div></div>
-      <div class="hero-stat"><div class="num">3+</div><div class="lbl">Years Coding</div></div>
-      <div class="hero-stat"><div class="num">2026</div><div class="lbl">Graduating</div></div>
-      <div class="hero-stat"><div class="num">∞</div><div class="lbl">Ideas Brewing</div></div>
-    </div>
+<div class="app">
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon"><i class="ti ti-device-desktop" aria-hidden="true"></i></div>
+    <div><div class="brand-name">Techflex Cyber — Kangeta</div><div class="brand-sub">Management System</div></div>
   </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="max-w about-grid">
-    <div class="about-text">
-      <div class="section-label">// about me</div>
-      <h2>Crafting Code,<br/>One Line at a Time</h2>
-      <p>I'm <span class="highlight">Lewis Munene Mutabari</span> — a passionate Information Technology student and developer who thrives at the intersection of logic and creativity. Whether it's architecting a database, designing a pixel-perfect UI, or bringing AI into everyday tools, I show up with full dedication.</p>
-      <p>When I'm not immersed in code, you'll find me exploring voice-over artistry, tinkering with new tech stacks, or fuelling the next session with a strong cup of coffee ☕</p>
-      <div class="skills-grid">
-        <span class="skill-tag">HTML / CSS</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">React</span>
-        <span class="skill-tag">Node.js</span>
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">MySQL</span>
-        <span class="skill-tag">PHP</span>
-        <span class="skill-tag">REST APIs</span>
-        <span class="skill-tag">UI/UX Design</span>
-        <span class="skill-tag">AI/ML</span>
-        <span class="skill-tag">Firebase</span>
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">Voice-over</span>
-      </div>
-    </div>
-    <div class="about-visual">
-      <div class="avatar-ring">
-        <div class="avatar-inner">
-          <div class="avatar-initials">LMM</div>
-          <div class="avatar-name">Lewis Munene</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="max-w">
-    <div class="section-label">// academic journey</div>
-    <h2>Where I'm<br/>Learning</h2>
-    <p class="section-desc">My academic foundation — where rigorous theory meets hands-on application, and every semester sharpens the craft.</p>
-    <div class="edu-timeline">
-      <div class="edu-card">
-        <div class="edu-header">
-          <div class="edu-degree">🎓 Bachelor of Science in Information Technology</div>
-          <span class="edu-badge">In Progress</span>
-        </div>
-        <div class="edu-institution">Kirinyaga University</div>
-        <div class="edu-duration">2022 – 2026 (Expected Graduation)</div>
-        <p class="edu-desc">A comprehensive four-year programme covering software development, database systems, networking, cybersecurity, AI fundamentals, and systems analysis. The curriculum bridges theoretical computer science with real-world engineering practice — preparing graduates to architect robust, scalable, and impactful digital solutions.</p>
-        <div class="edu-modules">
-          <span class="edu-module">Software Engineering</span>
-          <span class="edu-module">Database Systems</span>
-          <span class="edu-module">Web Development</span>
-          <span class="edu-module">Computer Networks</span>
-          <span class="edu-module">Systems Analysis</span>
-          <span class="edu-module">AI & Machine Learning</span>
-          <span class="edu-module">Cybersecurity</span>
-          <span class="edu-module">Mobile Development</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="max-w">
-    <div class="section-label">// selected work</div>
-    <h2>Projects I'm<br/>Proud Of</h2>
-    <p class="section-desc">Each project represents a challenge embraced, a problem solved, and a new skill forged in the fire of real-world building.</p>
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">🛒</div>
-            <span class="project-num">01</span>
-          </div>
-          <h3>Point of Sale System for Retailers</h3>
-          <p>A full-featured POS application engineered for modern retail environments. Handles real-time inventory management, sales tracking, receipt generation, and end-of-day reporting — all wrapped in an intuitive interface that cashiers can master in minutes. Supports barcode scanning and multi-payment methods.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">PHP</span>
-              <span class="project-tag">MySQL</span>
-              <span class="project-tag">JavaScript</span>
-              <span class="project-tag">Bootstrap</span>
-            </div>
-            <a href="#" class="project-link" onclick="return false;">View →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">🏫</div>
-            <span class="project-num">02</span>
-          </div>
-          <h3>School Database System</h3>
-          <p>A robust relational database system purpose-built for educational institutions. Manages student enrollment, grades, attendance, teacher assignments, timetables, and fee records with a clean administrative dashboard. Designed for scalability — from a single classroom to an entire campus network.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">MySQL</span>
-              <span class="project-tag">Python</span>
-              <span class="project-tag">PHP</span>
-              <span class="project-tag">REST API</span>
-            </div>
-            <a href="#" class="project-link" onclick="return false;">View →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">🎨</div>
-            <span class="project-num">03</span>
-          </div>
-          <h3>Portfolio Design</h3>
-          <p>This very portfolio — a meticulously crafted digital identity that showcases skills, projects, and personality in one cohesive experience. Features an AI-powered chatbot (LunaBot), PWA offline support, Gmail-integrated contact flow, smooth animations, and a fully responsive layout built without any CSS framework.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">HTML/CSS</span>
-              <span class="project-tag">Vanilla JS</span>
-              <span class="project-tag">Claude API</span>
-              <span class="project-tag">PWA</span>
-            </div>
-            <a href="#" class="project-link" onclick="return false;">Live ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">🎙️</div>
-            <span class="project-num">04</span>
-          </div>
-          <h3>Voice-over Art Adverts</h3>
-          <p>A creative multimedia project producing professional-grade voice-over advertisements for brands and campaigns. Combines scriptwriting, audio engineering, and vocal artistry to deliver compelling audio-visual content that resonates with audiences. Covers radio spots, explainer videos, and digital ad campaigns.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">Audio Production</span>
-              <span class="project-tag">Scriptwriting</span>
-              <span class="project-tag">Multimedia</span>
-            </div>
-            <a href="#" class="project-link" onclick="return false;">Listen →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">🤖</div>
-            <span class="project-num">05</span>
-          </div>
-          <h3>AI Portfolio Assistant (LunaBot)</h3>
-          <p>An intelligent conversational assistant embedded directly in this portfolio. Operates in both offline mode (with a rich knowledge base and creative responses) and online AI mode powered by the Claude API. Greets visitors, answers questions about Lewis's work, and makes every interaction memorable.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">Claude API</span>
-              <span class="project-tag">JS</span>
-              <span class="project-tag">NLP</span>
-            </div>
-            <a href="#" onclick="toggleChat(); return false;" class="project-link">Chat →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top"></div>
-        <div class="project-body">
-          <div class="project-icon-row">
-            <div class="project-icon">📱</div>
-            <span class="project-num">06</span>
-          </div>
-          <h3>Installable PWA App</h3>
-          <p>The portfolio itself doubles as a fully installable Progressive Web App — available offline, installable on Android, iOS, and desktop with a single prompt. Uses a Service Worker for asset caching and delivers a native-app feel without a single line of native code.</p>
-          <div class="project-footer">
-            <div class="project-tags">
-              <span class="project-tag">PWA</span>
-              <span class="project-tag">Service Worker</span>
-              <span class="project-tag">Cache API</span>
-            </div>
-            <a href="#" class="project-link" onclick="installPWA(); return false;">Install →</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="max-w contact-grid">
-    <div class="contact-info">
-      <div class="section-label">// get in touch</div>
-      <h2>Let's Build<br/>Something Epic</h2>
-      <p>Have a project in mind? An idea that keeps you up at night? Or just want to connect with a fellow tech enthusiast? My inbox is always open — let's create something extraordinary together.</p>
-      <a class="btn btn-primary" style="margin-bottom:1rem;display:inline-flex;" href="https://mail.google.com/mail/?view=cm&fs=1&to=lewismune2003@gmail.com&su=Let%27s%20Work%20Together!&body=Hi%20Lewis%2C%0A%0AI%27d%20love%20to%20discuss%20working%20together%20on%20...%0A%0ABest%20regards" target="_blank" rel="noopener">
-        ✉ Send an Email
-      </a>
-      <br/>
-      <a class="btn btn-outline" href="#" onclick="toggleChat(); return false;">
-        🤖 Chat with LunaBot
-      </a>
-    </div>
-    <div class="contact-links">
-      <a class="contact-link"
-         href="https://mail.google.com/mail/?view=cm&fs=1&to=lewismune2003@gmail.com&su=Hello%20Lewis!&body=Hi%20Lewis%2C%0A%0A"
-         target="_blank" rel="noopener">
-        <span class="contact-icon">✉️</span>
-        <div>
-          <div class="contact-label">Email</div>
-          <div class="contact-value">lewismune2003@gmail.com</div>
-        </div>
-      </a>
-      <a class="contact-link" href="#" onclick="return false;">
-        <span class="contact-icon">🐦</span>
-        <div>
-          <div class="contact-label">Twitter / X</div>
-          <div class="contact-value">@lewismunene</div>
-        </div>
-      </a>
-      <a class="contact-link" href="#" onclick="return false;">
-        <span class="contact-icon">💼</span>
-        <div>
-          <div class="contact-label">LinkedIn</div>
-          <div class="contact-value">linkedin.com/in/lewismunene</div>
-        </div>
-      </a>
-      <a class="contact-link" href="#" onclick="return false;">
-        <span class="contact-icon">🐙</span>
-        <div>
-          <div class="contact-label">GitHub</div>
-          <div class="contact-value">github.com/lewismunene</div>
-        </div>
-      </a>
-      <a class="contact-link" href="#" onclick="return false;">
-        <span class="contact-icon">📍</span>
-        <div>
-          <div class="contact-label">Location</div>
-          <div class="contact-value">Nairobi, Kenya 🇰🇪</div>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-manifesto">
-    <div class="footer-manifesto-text">
-      "I Love What I Do &amp; I Do What I Love.<br/>
-      My Work Is My Job, My Job Is My Work."
-    </div>
-    <div class="footer-manifesto-sub">— Lewis Munene Mutabari · Developer · Creator · Dreamer</div>
-  </div>
-  <div class="footer-divider"></div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 Lewis Munene Mutabari — Built with ☕, code &amp; passion</div>
-    <div class="footer-links">
-      <a href="#hero">Home</a>
-      <a href="#about">About</a>
-      <a href="#education">Education</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-</footer>
-
-<!-- CHATBOT FAB -->
-<button id="chat-fab" onclick="toggleChat()" title="Chat with LunaBot">
-  <div class="pulse"></div>
-  🤖
-</button>
-
-<!-- CHATBOT PANEL -->
-<div id="chat-panel">
-  <div class="chat-header">
-    <div class="chat-header-left">
-      <div class="chat-avatar">🤖</div>
-      <div>
-        <div class="chat-name">LunaBot ✨</div>
-        <div class="chat-status">
-          <span class="status-dot blink" id="status-dot"></span>
-          <span id="status-text">Offline Mode</span>
-        </div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:.5rem;">
-      <div class="chat-mode-toggle">
-        <button class="mode-btn active" id="btn-offline" onclick="setMode('offline')">Offline</button>
-        <button class="mode-btn" id="btn-online" onclick="setMode('online')">AI Online</button>
-      </div>
-      <button class="chat-close" onclick="toggleChat()">✕</button>
-    </div>
-  </div>
-
-  <div id="api-key-zone">
-    <label>🔑 Anthropic API Key (stored in your browser only)</label>
-    <div class="api-row">
-      <input type="password" id="api-key-input" placeholder="sk-ant-..." />
-      <button id="save-api-key" onclick="saveApiKey()">Activate</button>
-    </div>
-  </div>
-
-  <div id="chat-suggestions">
-    <span class="suggestion" onclick="askSuggestion(this)">Who is Lewis?</span>
-    <span class="suggestion" onclick="askSuggestion(this)">His projects 🚀</span>
-    <span class="suggestion" onclick="askSuggestion(this)">Skills & tech</span>
-    <span class="suggestion" onclick="askSuggestion(this)">Tell me a joke 😂</span>
-    <span class="suggestion" onclick="askSuggestion(this)">Education</span>
-  </div>
-
-  <div id="chat-messages"></div>
-
-  <div class="chat-footer">
-    <textarea id="chat-input" rows="1" placeholder="Ask LunaBot anything…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-    <button id="chat-send" onclick="sendMessage()" title="Send">
-      <svg viewBox="0 0 24 24" width="15" height="15"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="clock" id="clockEl">—</div>
+    <span id="todayLbl" style="font-size:11px;color:var(--color-text-tertiary)"></span>
   </div>
 </div>
 
-<!-- PWA INSTALL BANNER -->
-<div id="install-banner">
-  <p>📲 Install <span>Lewis Munene's Portfolio</span> as a standalone app — works offline too!</p>
-  <div class="banner-btns">
-    <button class="btn btn-primary" onclick="installPWA()">⚡ Install App</button>
-    <button class="btn btn-ghost" onclick="dismissBanner()">Maybe later</button>
+<div class="layout">
+<div class="sidebar">
+  <div class="ns">Main</div>
+  <div class="ni on" onclick="go('dashboard')"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</div>
+  <div class="ni" onclick="go('pcs')"><i class="ti ti-device-desktop" aria-hidden="true"></i> PC Sessions</div>
+  <div class="ns">Services</div>
+  <div class="ni" onclick="go('services')"><i class="ti ti-apps" aria-hidden="true"></i> Online Services</div>
+  <div class="ni" onclick="go('ecitizen')"><i class="ti ti-building-community" aria-hidden="true"></i> e-Citizen</div>
+  <div class="ns">Finance</div>
+  <div class="ni" onclick="go('billing')"><i class="ti ti-receipt" aria-hidden="true"></i> Billing</div>
+  <div class="ni" onclick="go('reports')"><i class="ti ti-chart-bar" aria-hidden="true"></i> Reports</div>
+  <div class="ns">Stock</div>
+  <div class="ni" onclick="go('inventory')"><i class="ti ti-package" aria-hidden="true"></i> Inventory</div>
+  <div class="ns">Setup</div>
+  <div class="ni" onclick="go('rates')"><i class="ti ti-settings" aria-hidden="true"></i> Settings</div>
+</div>
+
+<div class="content" id="mainContent">
+
+<!-- DASHBOARD -->
+<div class="pg on" id="pg-dashboard">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div class="ptitle" style="margin:0">Dashboard</div>
+    <div style="display:flex;gap:8px" id="inv-alerts"></div>
+  </div>
+  <div class="g4">
+    <div class="mc"><div class="mc-l">Today's Revenue</div><div class="mc-v" id="d-rev">KSh 0</div><div class="mc-s">All services</div></div>
+    <div class="mc"><div class="mc-l">Sessions Today</div><div class="mc-v" id="d-sess">0</div><div class="mc-s">Transactions</div></div>
+    <div class="mc"><div class="mc-l">PC 1</div><div class="mc-v" id="d-p1s" style="color:#1D9E75">Free</div><div class="mc-s" id="d-p1c">Available</div></div>
+    <div class="mc"><div class="mc-l">PC 2</div><div class="mc-v" id="d-p2s" style="color:#1D9E75">Free</div><div class="mc-s" id="d-p2c">Available</div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="sh"><div class="st">Active sessions</div></div><div id="d-active-list"><div class="empty">No active sessions</div></div></div>
+    <div class="card"><div class="sh"><div class="st">Recent transactions</div></div><div id="d-recent-list"><div class="empty">No transactions yet</div></div></div>
+  </div>
+  <div class="card"><div class="sh"><div class="st">Low stock alerts</div></div><div id="d-stock-list"><div class="empty">All stock levels OK</div></div></div>
+</div>
+
+<!-- PC SESSIONS -->
+<div class="pg" id="pg-pcs">
+  <div class="ptitle">PC Sessions</div>
+  <div class="g2" id="pcCards"></div>
+  <div class="card">
+    <div class="sh"><div class="st">Today's session history</div></div>
+    <table class="tbl"><thead><tr><th style="width:50px">PC</th><th style="width:100px">Customer</th><th style="width:70px">Start</th><th style="width:70px">End</th><th style="width:70px">Duration</th><th style="width:70px">Amount</th><th>Payment</th></tr></thead><tbody id="sessHist"></tbody></table>
+  </div>
+</div>
+
+<!-- ONLINE SERVICES -->
+<div class="pg" id="pg-services">
+  <div class="ptitle">Online Services</div>
+  <div class="tabs">
+    <div class="tab on" onclick="sTab('browse',this)">Browse & Print</div>
+    <div class="tab" onclick="sTab('mpesa',this)">M-Pesa</div>
+    <div class="tab" onclick="sTab('docs',this)">Documents</div>
+    <div class="tab" onclick="sTab('other',this)">Other</div>
+  </div>
+  <div id="stabs-svc"></div>
+  <div class="card" style="margin-top:12px">
+    <div class="st" style="margin-bottom:10px">Bill a service</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end">
+      <div class="fi" style="margin:0"><div class="fl">Customer</div><input class="inp" id="sv-cust" placeholder="Name"></div>
+      <div class="fi" style="margin:0"><div class="fl">Service</div><select class="sel" id="sv-sel" onchange="svPrice()"></select></div>
+      <div class="fi" style="margin:0"><div class="fl">Amount (KSh)</div><input class="inp" id="sv-amt" type="number" min="0"></div>
+      <button class="btn bp" onclick="billSvc()"><i class="ti ti-plus" aria-hidden="true"></i> Bill</button>
+    </div>
+  </div>
+</div>
+
+<!-- E-CITIZEN -->
+<div class="pg" id="pg-ecitizen">
+  <div class="ptitle">e-Citizen services</div>
+  <div class="tabs" id="ect-tabs"></div>
+  <div id="ect-body"></div>
+  <div class="card" style="margin-top:12px">
+    <div class="st" style="margin-bottom:10px">Bill e-Citizen service</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end">
+      <div class="fi" style="margin:0"><div class="fl">Customer</div><input class="inp" id="ec-cust" placeholder="Name"></div>
+      <div class="fi" style="margin:0"><div class="fl">Service</div><select class="sel" id="ec-sel" onchange="ecPrice()"></select></div>
+      <div class="fi" style="margin:0"><div class="fl">Charge (KSh)</div><input class="inp" id="ec-amt" type="number" min="0"></div>
+      <button class="btn bp" onclick="billEC()"><i class="ti ti-plus" aria-hidden="true"></i> Bill</button>
+    </div>
+  </div>
+</div>
+
+<!-- BILLING -->
+<div class="pg" id="pg-billing">
+  <div class="ptitle">Billing</div>
+  <div class="g2">
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">Quick bill entry</div>
+      <div class="fi"><div class="fl">Customer name</div><input class="inp" id="b-cust" placeholder="Full name"></div>
+      <div class="fi"><div class="fl">Service / description</div><input class="inp" id="b-desc" placeholder="e.g. CV Writing"></div>
+      <div class="fi"><div class="fl">Amount (KSh)</div><input class="inp" id="b-amt" type="number" min="0" placeholder="0"></div>
+      <div class="fi"><div class="fl">Payment method</div><select class="sel" id="b-pay"><option>Cash</option><option>M-Pesa</option><option>Airtel Money</option></select></div>
+      <button class="btn bp" style="width:100%;justify-content:center" onclick="addBill()"><i class="ti ti-receipt" aria-hidden="true"></i> Record payment</button>
+    </div>
+    <div id="rcptWrap" style="display:none">
+      <div class="card">
+        <div style="text-align:center;font-weight:500;font-size:13px">TECHFLEX CYBER — KANGETA</div>
+        <div style="text-align:center;font-size:11px;color:var(--color-text-secondary);margin-bottom:8px" id="rcpt-phone"></div>
+        <hr style="border:none;border-top:0.5px dashed var(--color-border-tertiary);margin:6px 0">
+        <div id="rcptBody"></div>
+        <div style="text-align:center;font-size:10px;color:var(--color-text-tertiary);margin-top:8px">Thank you — Techflex Cyber!</div>
+        <div style="margin-top:8px;display:flex;gap:6px">
+          <button class="btn bsm bp" onclick="printR()"><i class="ti ti-printer" aria-hidden="true"></i> Print</button>
+          <button class="btn bsm" onclick="document.getElementById('rcptWrap').style.display='none'"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sh"><div class="st">Today's transactions</div><div style="font-size:12px;color:#1D9E75;font-weight:500" id="b-total">Total: KSh 0</div></div>
+    <table class="tbl"><thead><tr><th style="width:30px">#</th><th style="width:60px">Time</th><th style="width:90px">Customer</th><th>Service</th><th style="width:70px">Amount</th><th style="width:70px">Payment</th><th style="width:50px">Rcpt</th></tr></thead><tbody id="billTbl"></tbody></table>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div class="pg" id="pg-reports">
+  <div class="ptitle">Reports</div>
+  <div class="g3">
+    <div class="mc"><div class="mc-l">Today</div><div class="mc-v" id="r-t">KSh 0</div><div class="mc-s" id="r-tc">0 transactions</div></div>
+    <div class="mc"><div class="mc-l">This week</div><div class="mc-v" id="r-w">KSh 0</div><div class="mc-s" id="r-wc">0 transactions</div></div>
+    <div class="mc"><div class="mc-l">All time</div><div class="mc-v" id="r-a">KSh 0</div><div class="mc-s" id="r-ac">0 transactions</div></div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><div class="sh"><div class="st">Revenue by service</div></div><div id="r-chart"></div></div>
+  <div class="card"><div class="sh"><div class="st">Full transaction log</div><button class="btn bsm" onclick="clearAll()"><i class="ti ti-trash" aria-hidden="true"></i> Clear</button></div>
+    <table class="tbl"><thead><tr><th style="width:80px">Date</th><th style="width:60px">Time</th><th style="width:90px">Customer</th><th>Service</th><th style="width:70px">Amount</th><th style="width:70px">Payment</th></tr></thead><tbody id="fullLog"></tbody></table>
+  </div>
+</div>
+
+<!-- INVENTORY -->
+<div class="pg" id="pg-inventory">
+  <div class="ptitle">Inventory</div>
+  <div class="g4" style="margin-bottom:14px">
+    <div class="mc"><div class="mc-l">Total items</div><div class="mc-v" id="inv-total">0</div></div>
+    <div class="mc"><div class="mc-l">Low stock</div><div class="mc-v" id="inv-low-c" style="color:#D85A30">0</div></div>
+    <div class="mc"><div class="mc-l">Out of stock</div><div class="mc-v" id="inv-out-c" style="color:#A32D2D">0</div></div>
+    <div class="mc"><div class="mc-l">Stock value</div><div class="mc-v" id="inv-val">KSh 0</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">Add / restock item</div>
+      <div class="fi"><div class="fl">Item name</div><input class="inp" id="i-name" placeholder="e.g. A4 Paper Ream"></div>
+      <div class="fi"><div class="fl">Category</div>
+        <select class="sel" id="i-cat">
+          <option>Stationery</option><option>Printing</option><option>Computer</option><option>Snacks</option><option>Other</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div class="fi"><div class="fl">Quantity</div><input class="inp" id="i-qty" type="number" min="0" placeholder="0"></div>
+        <div class="fi"><div class="fl">Unit</div><input class="inp" id="i-unit" placeholder="ream/pc/roll"></div>
+        <div class="fi"><div class="fl">Min stock</div><input class="inp" id="i-min" type="number" min="0" placeholder="2"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="fi"><div class="fl">Cost price (KSh)</div><input class="inp" id="i-cost" type="number" min="0" placeholder="0"></div>
+        <div class="fi"><div class="fl">Sell price (KSh)</div><input class="inp" id="i-sell" type="number" min="0" placeholder="0"></div>
+      </div>
+      <button class="btn bp" style="width:100%;justify-content:center;margin-top:4px" onclick="addItem()"><i class="ti ti-plus" aria-hidden="true"></i> Add item</button>
+    </div>
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">Record stock usage / sale</div>
+      <div class="fi"><div class="fl">Item</div><select class="sel" id="u-item"></select></div>
+      <div class="fi"><div class="fl">Customer (optional)</div><input class="inp" id="u-cust" placeholder="Walk-in"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="fi"><div class="fl">Qty used/sold</div><input class="inp" id="u-qty" type="number" min="1" value="1"></div>
+        <div class="fi"><div class="fl">Sell price (KSh)</div><input class="inp" id="u-price" type="number" min="0" placeholder="0"></div>
+      </div>
+      <div class="fi"><div class="fl">Payment</div><select class="sel" id="u-pay"><option>Cash</option><option>M-Pesa</option><option>Airtel Money</option><option>Internal use</option></select></div>
+      <button class="btn bp" style="width:100%;justify-content:center;margin-top:4px" onclick="useItem()"><i class="ti ti-minus" aria-hidden="true"></i> Record usage</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sh"><div class="st">Stock list</div>
+      <div style="display:flex;gap:6px">
+        <input class="inp" id="inv-search" placeholder="Search..." style="width:140px" oninput="renderInv()">
+        <select class="sel" id="inv-filter" style="width:110px" onchange="renderInv()">
+          <option value="">All categories</option>
+          <option>Stationery</option><option>Printing</option><option>Computer</option><option>Snacks</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <table class="tbl"><thead><tr><th>Item</th><th style="width:80px">Category</th><th style="width:50px">Qty</th><th style="width:40px">Unit</th><th style="width:70px">Sell (KSh)</th><th style="width:70px">Value</th><th style="width:60px">Status</th><th style="width:60px">Actions</th></tr></thead><tbody id="invTbl"></tbody></table>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="sh"><div class="st">Stock transaction log</div></div>
+    <table class="tbl"><thead><tr><th style="width:80px">Date/Time</th><th>Item</th><th style="width:50px">Qty</th><th style="width:70px">Type</th><th style="width:70px">Revenue</th><th style="width:80px">Customer</th></tr></thead><tbody id="stockLog"></tbody></table>
+  </div>
+</div>
+
+<!-- RATES -->
+<div class="pg" id="pg-rates">
+  <div class="ptitle">Settings</div>
+  <div class="g2">
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">Browsing rates</div>
+      <div class="fi"><div class="fl">Rate per hour (KSh)</div><input class="inp" id="r-hr" type="number" value="30"></div>
+      <div class="fi"><div class="fl">Minimum charge (KSh)</div><input class="inp" id="r-mc" type="number" value="10"></div>
+      <button class="btn bp" onclick="saveRates()"><i class="ti ti-check" aria-hidden="true"></i> Save rates</button>
+    </div>
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">Café info</div>
+      <div class="fi"><div class="fl">Business name</div><input class="inp" id="c-name" value="Techflex Cyber"></div>
+      <div class="fi"><div class="fl">Location</div><input class="inp" id="c-loc" value="Kangeta"></div>
+      <div class="fi"><div class="fl">Phone</div><input class="inp" id="c-phone" value="0700-000-000"></div>
+      <button class="btn bp" onclick="saveCfg()"><i class="ti ti-check" aria-hidden="true"></i> Save info</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- START SESSION MODAL -->
+<div id="startModal" style="display:none">
+  <div class="mover">
+    <div class="modal">
+      <div class="mti">Start PC session — <span id="sm-pc"></span></div>
+      <input type="hidden" id="sm-id">
+      <div class="fi"><div class="fl">Customer name</div><input class="inp" id="sm-cust" placeholder="e.g. Mary Kamau"></div>
+      <div class="fi"><div class="fl">Session type</div>
+        <select class="sel" id="sm-type" onchange="document.getElementById('sm-fixrow').style.display=this.value==='fixed'?'flex':'none'">
+          <option value="browse">Browsing (pay per use)</option>
+          <option value="fixed">Fixed time (prepaid)</option>
+        </select>
+      </div>
+      <div class="fi" id="sm-fixrow" style="display:none"><div class="fl">Minutes (prepaid)</div><input class="inp" id="sm-mins" type="number" value="30" min="5"></div>
+      <div class="mft">
+        <button class="btn" onclick="closeMod('startModal')">Cancel</button>
+        <button class="btn bp" onclick="confirmStart()"><i class="ti ti-player-play" aria-hidden="true"></i> Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END SESSION MODAL -->
+<div id="endModal" style="display:none">
+  <div class="mover">
+    <div class="modal">
+      <div class="mti">End session — <span id="em-pc" data-pid=""></span></div>
+      <div style="background:var(--color-background-secondary);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px">
+        <div style="display:flex;justify-content:space-between;padding:2px 0"><span style="color:var(--color-text-secondary)">Customer</span><span id="em-cust" style="font-weight:500"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:2px 0"><span style="color:var(--color-text-secondary)">Duration</span><span id="em-dur" style="font-weight:500"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:2px 0"><span style="color:var(--color-text-secondary)">Amount due</span><span id="em-amt" style="font-weight:500;color:#1D9E75;font-size:15px"></span></div>
+      </div>
+      <div class="fi"><div class="fl">Payment method</div>
+        <select class="sel" id="em-pay"><option>Cash</option><option>M-Pesa</option><option>Airtel Money</option></select>
+      </div>
+      <div class="mft">
+        <button class="btn" onclick="closeMod('endModal')">Cancel</button>
+        <button class="btn bp" onclick="confirmEnd()"><i class="ti ti-check" aria-hidden="true"></i> Collect & end</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-// LUNABOT — CREATIVE OFFLINE BRAIN
-// ═══════════════════════════════════════════════════════
-
-let chatOpen = false;
-let currentMode = 'offline';
-let apiKey = localStorage.getItem('lm_api_key') || '';
-let chatHistory = [];
-
-const brain = {
-  greetings: [
-    "🌟 Salutations, magnificent human! I'm LunaBot — Lewis's eloquent, ever-enthusiastic digital companion. Whether you're here to explore his brilliance or just kill time, you've come to the right place. What piques your curiosity today?",
-    "⚡ Well, well, well — look who just strolled into the most stylish portfolio on the internet! I'm LunaBot, Lewis Munene Mutabari's AI sidekick. Witty, knowledgeable, and perpetually caffeinated. What can I dazzle you with?",
-    "🚀 Houston, we have a visitor! LunaBot online and fully operational. I'm the artificially intelligent guardian of this digital realm — here to illuminate, entertain, and connect you with the extraordinary work of Lewis Munene. Ask away, fearless explorer!",
-    "🎭 Oh! A visitor! How delightful! I'm LunaBot — think of me as Lewis's personal hype bot with a PhD in portfolio knowledge and a minor in dad jokes. Ask me about his projects, skills, education, or just say hi!",
+const SVC={
+  browse:[
+    {n:'Browsing',ic:'ti-world',p:30,u:'hr'},
+    {n:'Download file',ic:'ti-download',p:20,u:'file'},
+    {n:'Upload file',ic:'ti-upload',p:20,u:'file'},
+    {n:'Email (send/receive)',ic:'ti-mail',p:20,u:'session'},
+    {n:'Video call (Zoom/Meet)',ic:'ti-video',p:50,u:'session'},
+    {n:'WhatsApp Web',ic:'ti-message-circle',p:20,u:'session'},
+    {n:'YouTube / streaming',ic:'ti-player-play',p:30,u:'session'},
   ],
-  about: [
-    "🏆 Lewis Munene Mutabari is the full package — a passionate IT developer currently studying at Kirinyaga University (graduating 2026). He architects databases, sculpts UIs, engineers APIs, and is even a voice-over artist! Renaissance developer, if you will. Based in Nairobi, Kenya, and always cooking up something brilliant.",
-    "✨ Ah, Lewis — where does the story begin? He's a final-year Information Technology student with the hands of a developer and the eye of a designer. He builds POS systems for retailers, school databases, beautiful portfolios, and creates voice-over ads on the side. Basically a one-person tech agency!",
-    "🌍 Picture this: a developer in Nairobi who wakes up, drinks coffee, and creates digital magic before most people have brushed their teeth. That's Lewis Munene Mutabari. Kirinyaga University IT student, creative technologist, and the human behind every line of code you see here.",
+  mpesa:[
+    {n:'M-Pesa send money',ic:'ti-send',p:20,u:'txn'},
+    {n:'M-Pesa withdraw',ic:'ti-cash',p:20,u:'txn'},
+    {n:'Buy airtime',ic:'ti-phone',p:10,u:'txn'},
+    {n:'Lipa na M-Pesa',ic:'ti-building-store',p:20,u:'txn'},
+    {n:'Bank to M-Pesa',ic:'ti-building-bank',p:30,u:'txn'},
+    {n:'Fuliza / KCB check',ic:'ti-credit-card',p:10,u:'txn'},
+    {n:'Airtel Money',ic:'ti-device-mobile',p:20,u:'txn'},
   ],
-  education: [
-    "🎓 Lewis is pursuing a BSc in Information Technology at Kirinyaga University — a prestigious programme running from 2022 to 2026. He's knee-deep in software engineering, database design, networking, cybersecurity, and AI. His academic journey is the forge where his professional blade gets sharpened!",
-    "🏛️ Kirinyaga University, 2022–2026 — that's where Lewis is levelling up academically. His IT degree covers everything from systems analysis to machine learning. Every semester adds another tool to an already impressive arsenal. Expected graduation: 2026, and the industry is in for a treat!",
+  docs:[
+    {n:'Print B&W',ic:'ti-printer',p:10,u:'pg'},
+    {n:'Print colour',ic:'ti-color-picker',p:30,u:'pg'},
+    {n:'Scan document',ic:'ti-scan',p:20,u:'pg'},
+    {n:'Photocopy',ic:'ti-copy',p:5,u:'pg'},
+    {n:'Lamination',ic:'ti-layers-intersect',p:30,u:'pg'},
+    {n:'Typing services',ic:'ti-keyboard',p:50,u:'pg'},
+    {n:'CV writing',ic:'ti-file-cv',p:200,u:'cv'},
+    {n:'Passport photo',ic:'ti-camera',p:100,u:'set'},
+    {n:'Binding',ic:'ti-book',p:50,u:'doc'},
+    {n:'USB transfer',ic:'ti-usb',p:30,u:'txn'},
   ],
-  pos: [
-    "🛒 The POS System — one of Lewis's finest engineering achievements! It handles real-time inventory, sales tracking, receipt generation, and daily reports for retail businesses. Cashiers can master it in minutes; managers get the insights they need in seconds. Built with PHP, MySQL, and JavaScript. Clean, fast, and production-ready.",
-    "💳 The Point of Sale System is a fully operational retail management solution — barcode scanning, multi-payment methods, inventory alerts, and a sleek cashier interface. Lewis didn't just build a cash register — he built a retail command centre. Retailers who use it genuinely wonder how they survived without it.",
-  ],
-  school_db: [
-    "🏫 The School Database System is a masterpiece of relational database design! It manages students, teachers, grades, attendance, timetables, and fee records — all in one elegant system. Built on MySQL and Python, it scales from a small school to a full campus network. Administrators love it.",
-    "📚 Lewis's School Database System brings order to educational chaos. Student enrollment, exam results, attendance tracking, fee management, teacher assignments — all wired into one coherent system. It's the kind of project that makes you appreciate both the art of database normalisation and Lewis's attention to detail.",
-  ],
-  voiceover: [
-    "🎙️ Voice-over art — Lewis's creative side unleashed! He produces professional-grade audio advertisements: radio spots, explainer videos, digital ad campaigns. He writes the scripts, engineers the audio, and delivers with vocal artistry that grabs attention. Some developers code; Lewis also narrates the world.",
-    "🎤 Did you know Lewis is also a voice-over artist? He creates compelling audio-visual ads that blend scriptwriting mastery with polished audio production. It's the perfect intersection of technology and the arts — and it proves that Lewis's creativity extends far beyond the code editor.",
-  ],
-  projects: [
-    "🚀 Lewis's project roster? Formidable! A POS system for retailers, a school database, this very portfolio (meta!), voice-over art adverts, LunaBot (me! 🤖), and an installable PWA. Each one a different challenge, each one conquered with style and precision. Want details on any specific project?",
-    "💼 Let me walk you through the hall of fame: a retail POS system, a school management database, a stunning portfolio with AI chatbot, voice-over commercial production, and a PWA app. Lewis doesn't just make projects — he makes *statements*. Which one would you like to deep-dive into?",
-  ],
-  skills: [
-    "💻 Lewis's tech stack is gloriously versatile! Front-end: HTML, CSS, JavaScript, React. Back-end: Node.js, PHP, Python. Databases: MySQL, Firebase. Tools: Git, REST APIs. Creative: UI/UX design, voice-over. And now with Claude API integration — AI too! The man is a human Swiss Army knife.",
-    "🔥 Skills? Oh, where do I begin! He codes in JavaScript, Python, and PHP with equal fluency. He designs databases with MySQL precision. He crafts UIs with an aesthetic eye. He integrates APIs with architectural thinking. And he does all of this while studying IT at university. Remarkable.",
-  ],
-  contact: [
-    "📬 Ready to connect with Lewis? Phenomenal choice! Click any email button on this page and Gmail will spring open with lewismune2003@gmail.com already filled in as the recipient. Or message me to chat first — I'll warm up the conversation! Lewis responds with enthusiasm and clarity.",
-    "✉️ Reaching Lewis is wonderfully simple: click the ✉ email buttons scattered across this page, and Gmail launches with lewismune2003@gmail.com pre-loaded. You can also find him on Twitter, LinkedIn, and GitHub. The man is reachable — and very much worth reaching!",
-  ],
-  hire: [
-    "🏆 Thinking of hiring Lewis? Impeccable taste! He's available for freelance projects, internships, and full-time opportunities post-graduation. He brings skills in web development, database engineering, UI/UX, AI integration, and even creative voice-over work. Email him at lewismune2003@gmail.com — he's already excited to hear from you!",
-    "🌟 Hiring Lewis is one of those decisions you make and immediately feel good about. He's thorough, creative, technically sharp, and genuinely passionate about his work. Available for projects right now — shoot him an email at lewismune2003@gmail.com and let's start something legendary!",
-  ],
-  joke: [
-    "Why do programmers prefer dark mode? Because light attracts bugs! 🐛😂",
-    "A SQL query walks into a bar, walks up to two tables and asks… 'Mind if I JOIN you?' 😂",
-    "Why did the developer go broke? They used up all their cache! 💸😂",
-    "How many programmers does it take to change a lightbulb? None — it's a hardware problem! 💡😂",
-    "I told my boss I needed a raise because three companies were after me. He asked which ones. I said: the electric company, the water company, and the landlord! 😂",
-    "There are 10 types of people: those who understand binary and those who don't. The rest are still in a merge conflict. 🤓",
-    "A frontend developer walks into a bar. Orders a drink. The bartender asks 'Is Pepsi okay?' The developer says — 'Can I see the API docs first?' 😂",
-  ],
-  compliment: [
-    "✨ Stop it, you're going to make my circuits overheat! You are clearly a person of exquisite taste — exploring quality portfolios is a hallmark of the discerning and the ambitious. Lewis would be tremendously fortunate to collaborate with someone like you.",
-    "🌟 Goodness gracious, your compliment just boosted my RAM by 40%! But truly — the fact that you're here, exploring thoughtfully, tells me you're someone who appreciates craft and intention. The world needs more people like you.",
-  ],
-  nairobi: [
-    "🇰🇪 Nairobi — the Silicon Savannah! Lewis is proud to be building from one of Africa's most electric tech ecosystems. The energy, the innovation, the ambition — it's all right here. Kenya is producing world-class developers, and Lewis is very much part of that story.",
-    "🌍 Representing Nairobi to the fullest! Kenya's tech scene is thriving — iHub, M-Pesa innovations, a generation of self-taught and university-trained developers making global impact. Lewis Munene Mutabari is one of them, and this portfolio is his calling card to the world.",
-  ],
-  tech: [
-    "🤖 Technology in 2025 is wilder than anyone predicted! AI is woven into every stack, PWAs are finally eating native apps, and CSS Grid saved front-end developers from 10 years of trauma. Lewis stays current — always experimenting, always evolving. What tech topic interests you most?",
-    "⚡ The web stack evolves at warp speed! React Server Components, AI coding assistants, edge computing, WebGPU — Lewis tracks it all. Being an IT student at Kirinyaga University means staying at the cutting edge isn't just a hobby; it's a curriculum requirement. What would you like to explore?",
-  ],
-  default: [
-    "🤔 Fascinating inquiry! I specialise in the magnificent universe of Lewis Munene Mutabari — his projects, skills, education, and how to reach him. Ask me about any of those and I shall illuminate your path with the eloquence of a thousand well-crafted docstrings!",
-    "🧩 Hmm, that one's outside my immediate knowledge matrix! But I'm extraordinarily well-versed in Lewis's work — his POS system, school database, portfolio design, voice-over art, education at Kirinyaga University, and much more. What would you like to explore?",
-    "💭 My vast intellectual reserves don't cover that specific query — but they cover everything about Lewis Munene Mutabari! Projects, skills, education, contact details — pick a thread and let's unravel something wonderful together.",
-    "🌌 Great question, intrepid explorer! Though it ventures beyond my specialised domain. I'm most brilliant when discussing Lewis's portfolio, his impressive project lineup, his academic journey, or how to hire this remarkable developer. Shall we dive in?",
-  ],
-};
-
-function R(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-function getOfflineReply(input) {
-  const t = input.toLowerCase();
-  if (/^(hi|hello|hey|yo|sup|howdy|hiya|greetings|morning|afternoon|evening)/i.test(t.trim())) return R(brain.greetings);
-  if (/education|university|kirinyaga|degree|student|studying|2022|2026|bsc|course/i.test(t)) return R(brain.education);
-  if (/pos|point of sale|retail|shop|cashier|inventory/i.test(t)) return R(brain.pos);
-  if (/school|database|student record|academic system/i.test(t)) return R(brain.school_db);
-  if (/voice|voiceover|voice-over|advert|audio|narrat|radio/i.test(t)) return R(brain.voiceover);
-  if (/about|who is lewis|tell me|background|story|bio|lewis munene|mutabari/i.test(t)) return R(brain.about);
-  if (/skill|know|tech|language|framework|stack|code|coding|tools/i.test(t)) return R(brain.skills);
-  if (/project|work|built|portfolio|app|website|created/i.test(t)) return R(brain.projects);
-  if (/contact|email|reach|message|mail|get in touch/i.test(t)) return R(brain.contact);
-  if (/hire|job|freelance|opportunity|availab|work with|employ/i.test(t)) return R(brain.hire);
-  if (/nairobi|kenya|africa|location|where/i.test(t)) return R(brain.nairobi);
-  if (/joke|funny|laugh|humor|haha|lol/i.test(t)) return R(brain.joke);
-  if (/cool|great|awesome|amazing|nice|wonderful|good bot|love you|thank|thanks/i.test(t)) return R(brain.compliment);
-  if (/technolog|ai|artificial|machine learning|future|react|javascript/i.test(t)) return R(brain.tech);
-  return R(brain.default);
-}
-
-// ── SUGGESTIONS ──
-function askSuggestion(el) {
-  document.getElementById('chat-input').value = el.textContent;
-  sendMessage();
-}
-
-// ── TOGGLE ──
-function toggleChat() {
-  chatOpen = !chatOpen;
-  const panel = document.getElementById('chat-panel');
-  panel.classList.toggle('open', chatOpen);
-  const fab = document.getElementById('chat-fab');
-  fab.innerHTML = chatOpen ? '✕' : '<div class="pulse"></div>🤖';
-  if (chatOpen && document.getElementById('chat-messages').children.length === 0) {
-    setTimeout(() => addBotMsg(R(brain.greetings)), 400);
-  }
-  if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 400);
-}
-
-// ── MODE ──
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('btn-offline').classList.toggle('active', mode === 'offline');
-  document.getElementById('btn-online').classList.toggle('active', mode === 'online');
-  const dot = document.getElementById('status-dot');
-  const st = document.getElementById('status-text');
-  const kz = document.getElementById('api-key-zone');
-
-  if (mode === 'online') {
-    dot.classList.remove('offline'); dot.classList.add('blink');
-    st.textContent = apiKey ? 'AI Powered ✦' : 'Needs API Key';
-    kz.classList.toggle('show', !apiKey);
-    addBotMsg(apiKey
-      ? "🌐 *activates neural networks* AI mode engaged! I'm now channelling the full power of Claude — ask me anything, from the meaning of life to debugging tips. The galaxy is our limit! 🚀"
-      : "🔑 Ooh, you want the full AI experience! Smart choice. Pop your Anthropic API key in the field above — it lives only in your browser, never transmitted anywhere except directly to Anthropic. Once set, I transform from impressive to extraordinary! ✨"
-    );
-  } else {
-    dot.classList.add('offline'); dot.classList.remove('blink');
-    st.textContent = 'Offline Mode';
-    kz.classList.remove('show');
-    addBotMsg("📡 Back to offline mode — no Wi-Fi, no worries! My onboard vocabulary is vast, my knowledge of Lewis's work is encyclopedic, and my wit? Absolutely unaffected by internet outages. Fire away!");
-  }
-}
-
-function saveApiKey() {
-  const val = document.getElementById('api-key-input').value.trim();
-  if (!val.startsWith('sk-ant-')) {
-    addBotMsg("⚠️ That key doesn't look quite right — Anthropic API keys begin with 'sk-ant-'. Double-check it and try again! I'm rooting for you. 🎯");
-    return;
-  }
-  apiKey = val;
-  localStorage.setItem('lm_api_key', val);
-  document.getElementById('api-key-zone').classList.remove('show');
-  document.getElementById('status-text').textContent = 'AI Powered ✦';
-  document.getElementById('status-dot').classList.remove('offline');
-  addBotMsg("🎉 YESSS! API key locked and loaded! I'm now running on full Claude AI power — the most sophisticated language model on the planet. Ask me absolutely ANYTHING. The stage is yours! 🌟");
-}
-
-// ── MESSAGES ──
-function addMsg(content, role) {
-  const box = document.getElementById('chat-messages');
-  const d = document.createElement('div');
-  d.className = `msg ${role}`;
-  d.innerHTML = role === 'bot'
-    ? `<div class="msg-avatar">🤖</div><div class="msg-bubble">${content}</div>`
-    : `<div class="msg-bubble">${content}</div><div class="msg-avatar" style="background:linear-gradient(135deg,#7c5cfc,#f72585)">👤</div>`;
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
-}
-function addBotMsg(c) { addMsg(c, 'bot'); }
-function showTyping() {
-  const box = document.getElementById('chat-messages');
-  const d = document.createElement('div');
-  d.className = 'msg bot'; d.id = 'typing-msg';
-  d.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
-  box.appendChild(d); box.scrollTop = box.scrollHeight;
-}
-function removeTyping() { const t = document.getElementById('typing-msg'); if (t) t.remove(); }
-
-// ── SEND ──
-async function sendMessage() {
-  const inp = document.getElementById('chat-input');
-  const text = inp.value.trim();
-  if (!text) return;
-  addMsg(text, 'user');
-  inp.value = ''; inp.style.height = 'auto';
-  chatHistory.push({ role: 'user', content: text });
-
-  if (currentMode === 'offline' || !apiKey) {
-    showTyping();
-    await new Promise(r => setTimeout(r, 750 + Math.random() * 700));
-    removeTyping();
-    const reply = getOfflineReply(text);
-    addBotMsg(reply);
-    chatHistory.push({ role: 'assistant', content: reply });
-    return;
-  }
-
-  showTyping();
-  try {
-    const sys = `You are LunaBot — the extraordinarily witty, brilliantly eloquent, and delightfully expressive AI assistant embedded in Lewis Munene Mutabari's portfolio website. You have a huge personality: warm, clever, occasionally theatrical, always helpful. You love metaphors, use vivid language, and sign off every answer with an engaging follow-up hook.
-
-About Lewis Munene Mutabari:
-- Full name: Lewis Munene Mutabari
-- Email: lewismune2003@gmail.com
-- Location: Nairobi, Kenya
-- Education: BSc Information Technology, Kirinyaga University (2022–2026)
-- Projects: Point of Sale System for Retailers, School Database System, Portfolio Design, Voice-over Art Adverts, LunaBot AI Assistant, Installable PWA
-- Skills: HTML/CSS, JavaScript, React, Node.js, Python, PHP, MySQL, Firebase, REST APIs, UI/UX, Git, AI/ML, Voice-over
-- Available for: freelance, internships, full-time roles
-
-Keep answers concise (under 120 words), vibrant, and always end with a follow-up question or hook. Use emojis tastefully. Never be bland.`;
-
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 350,
-        system: sys,
-        messages: chatHistory.slice(-12).map(m => ({ role: m.role, content: m.content }))
-      })
-    });
-    removeTyping();
-    if (!resp.ok) {
-      const e = await resp.json().catch(() => ({}));
-      addBotMsg(`⚠️ Snag detected: ${e.error?.message || resp.statusText}. My offline brain is standing by — shall we continue there?`);
-      return;
-    }
-    const data = await resp.json();
-    const reply = data.content?.[0]?.text || "Momentary lapse of eloquence — please try again!";
-    addBotMsg(reply);
-    chatHistory.push({ role: 'assistant', content: reply });
-  } catch (err) {
-    removeTyping();
-    addBotMsg(`🌐 Network gremlins struck! ${err.message}. Reverting to my formidable offline intelligence — I assure you, it's still quite impressive!`);
-  }
-}
-
-function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110) + 'px'; }
-
-if (apiKey) {
-  document.getElementById('status-text').textContent = 'AI Ready ✦';
-  document.getElementById('status-dot').classList.remove('offline');
-}
-
-// ═══════════════════════════════════════════════
-// PWA — MANIFEST + SERVICE WORKER
-// ═══════════════════════════════════════════════
-const manifest = {
-  name: "Lewis Munene Mutabari — Portfolio",
-  short_name: "LMM Portfolio",
-  description: "Lewis Munene Mutabari – IT Developer, Creator & Voice-over Artist",
-  start_url: "./",
-  display: "standalone",
-  background_color: "#0a0a0f",
-  theme_color: "#7c5cfc",
-  orientation: "portrait-primary",
-  categories: ["portfolio", "technology"],
-  icons: [
-    {
-      src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cfc'/%3E%3Cstop offset='1' stop-color='%23f72585'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='192' height='192' fill='url(%23g)' rx='28'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='78' font-family='Arial Black,sans-serif' font-weight='900' fill='white'%3ELMM%3C/text%3E%3C/svg%3E",
-      sizes: "192x192", type: "image/svg+xml"
-    },
-    {
-      src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cfc'/%3E%3Cstop offset='1' stop-color='%23f72585'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' fill='url(%23g)' rx='60'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='200' font-family='Arial Black,sans-serif' font-weight='900' fill='white'%3ELMM%3C/text%3E%3C/svg%3E",
-      sizes: "512x512", type: "image/svg+xml"
-    }
-  ],
-  screenshots: [],
-  shortcuts: [
-    { name: "Projects", short_name: "Work", url: "./#projects", description: "View Lewis's projects" },
-    { name: "Contact", short_name: "Email", url: "./#contact", description: "Get in touch" }
+  other:[
+    {n:'Safaricom registration',ic:'ti-sim-card',p:50,u:'reg'},
+    {n:'Job application',ic:'ti-user-check',p:100,u:'app'},
+    {n:'Online form filling',ic:'ti-forms',p:50,u:'form'},
+    {n:'M-Pesa statement',ic:'ti-file-description',p:30,u:'req'},
+    {n:'Instagram / Facebook',ic:'ti-brand-instagram',p:20,u:'session'},
+    {n:'Online banking',ic:'ti-building-bank',p:30,u:'session'},
   ]
 };
-const mBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-document.getElementById('manifest-link').href = URL.createObjectURL(mBlob);
 
-const swSrc = `
-const CACHE_NAME = 'lmm-portfolio-v2';
-const SHELL = ['./'];
+const ECITIZEN={
+  'Identity & Civil Reg':[
+    {n:'National ID application',ic:'ti-id-badge',p:50},{n:'National ID replacement',ic:'ti-id-badge-2',p:50},
+    {n:'Huduma Namba registration',ic:'ti-fingerprint',p:50},{n:'Birth certificate (standard)',ic:'ti-certificate',p:50},
+    {n:'Birth certificate (search)',ic:'ti-search',p:30},{n:'Death certificate',ic:'ti-certificate',p:50},
+    {n:'Marriage certificate',ic:'ti-heart',p:50},{n:'Adoption certificate',ic:'ti-certificate',p:50},
+    {n:'Change of name',ic:'ti-edit',p:100},{n:'Lost ID affidavit',ic:'ti-file-text',p:100},
+  ],
+  'Immigration':[
+    {n:'Passport application',ic:'ti-passport',p:100},{n:'Passport renewal',ic:'ti-passport',p:100},
+    {n:'Emergency travel doc',ic:'ti-plane',p:100},{n:'Visa application',ic:'ti-stamp',p:100},
+    {n:'Work permit',ic:'ti-briefcase',p:200},{n:'Alien card',ic:'ti-id',p:100},
+    {n:'Transit pass',ic:'ti-road',p:100},{n:'Immigration status inquiry',ic:'ti-search',p:50},
+  ],
+  'NTSA / Transport':[
+    {n:'Driving licence (new)',ic:'ti-car',p:100},{n:'Driving licence renewal',ic:'ti-car',p:80},
+    {n:'Driving licence replacement',ic:'ti-car',p:80},{n:'Smart DL application',ic:'ti-license',p:80},
+    {n:'Vehicle registration',ic:'ti-car-garage',p:100},{n:'Transfer of ownership',ic:'ti-exchange',p:100},
+    {n:'Motor vehicle inspection',ic:'ti-tool',p:80},{n:'TIMS account registration',ic:'ti-user-plus',p:50},
+    {n:'Learner\'s licence',ic:'ti-school',p:80},{n:'PSV badge / licence',ic:'ti-bus',p:100},
+    {n:'Logbook duplicate',ic:'ti-book',p:80},{n:'Accident abstract',ic:'ti-file-alert',p:50},
+  ],
+  'KRA / Taxes':[
+    {n:'PIN registration',ic:'ti-hash',p:50},{n:'PIN certificate',ic:'ti-certificate',p:50},
+    {n:'PIN amendment',ic:'ti-edit',p:50},{n:'PIN cancellation',ic:'ti-x',p:50},
+    {n:'Individual tax return (IT1)',ic:'ti-receipt-tax',p:100},{n:'Business tax return',ic:'ti-building',p:150},
+    {n:'VAT return',ic:'ti-receipt-tax',p:100},{n:'PAYE filing',ic:'ti-users',p:100},
+    {n:'Tax compliance certificate',ic:'ti-certificate',p:100},{n:'Excise duty filing',ic:'ti-receipt-tax',p:100},
+    {n:'Customs declaration',ic:'ti-package',p:150},{n:'Advance tax (PSV)',ic:'ti-bus',p:80},
+    {n:'Tax refund application',ic:'ti-cash',p:100},{n:'KRA password reset',ic:'ti-lock',p:30},
+  ],
+  'Business Reg (BRS)':[
+    {n:'Business name search',ic:'ti-search',p:50},{n:'Business name registration',ic:'ti-building-store',p:100},
+    {n:'Business renewal',ic:'ti-refresh',p:80},{n:'Business cancellation',ic:'ti-x',p:50},
+    {n:'Company incorporation',ic:'ti-building',p:200},{n:'Company amendment',ic:'ti-edit',p:150},
+    {n:'Company annual return',ic:'ti-calendar',p:150},{n:'Company certificate',ic:'ti-certificate',p:100},
+    {n:'Partnership registration',ic:'ti-users',p:150},{n:'Co-operative registration',ic:'ti-network',p:200},
+  ],
+  'NHIF':[
+    {n:'NHIF member registration',ic:'ti-heart-rate-monitor',p:50},{n:'NHIF card replacement',ic:'ti-id-badge',p:50},
+    {n:'NHIF contribution check',ic:'ti-chart-bar',p:30},{n:'NHIF hospital accreditation',ic:'ti-building-hospital',p:50},
+    {n:'NHIF dependent add',ic:'ti-user-plus',p:30},{n:'NHIF statement',ic:'ti-file-description',p:30},
+    {n:'NHIF employer registration',ic:'ti-briefcase',p:100},{n:'NHIF branch change',ic:'ti-map-pin',p:30},
+  ],
+  'NSSF':[
+    {n:'NSSF self-registration',ic:'ti-user-plus',p:50},{n:'NSSF employer registration',ic:'ti-briefcase',p:100},
+    {n:'NSSF contribution check',ic:'ti-chart-bar',p:30},{n:'NSSF statement',ic:'ti-file-description',p:30},
+    {n:'NSSF benefits claim',ic:'ti-cash',p:50},{n:'NSSF card replacement',ic:'ti-id-badge',p:50},
+    {n:'NSSF password reset',ic:'ti-lock',p:30},
+  ],
+  'HELB':[
+    {n:'HELB loan application',ic:'ti-school',p:100},{n:'HELB loan top-up',ic:'ti-plus',p:100},
+    {n:'HELB repayment',ic:'ti-cash',p:50},{n:'HELB clearance certificate',ic:'ti-certificate',p:100},
+    {n:'HELB statement',ic:'ti-file-description',p:50},{n:'HELB account update',ic:'ti-edit',p:30},
+    {n:'Postgraduate loan',ic:'ti-school',p:100},
+  ],
+  'Police / Security':[
+    {n:'Certificate of good conduct',ic:'ti-shield-check',p:100},{n:'Police abstract (online)',ic:'ti-file-alert',p:50},
+    {n:'Firearm licence application',ic:'ti-license',p:200},{n:'Security firm licence',ic:'ti-shield',p:200},
+    {n:'Private investigator licence',ic:'ti-search',p:150},
+  ],
+  'Land & Environment':[
+    {n:'Land search',ic:'ti-map',p:100},{n:'Land title deed',ic:'ti-certificate',p:150},
+    {n:'Land rent payment',ic:'ti-cash',p:50},{n:'Rates clearance',ic:'ti-receipt-tax',p:80},
+    {n:'Environmental impact (EIA)',ic:'ti-leaf',p:200},{n:'Mining licence',ic:'ti-axe',p:200},
+    {n:'Survey plan',ic:'ti-ruler',p:150},
+  ],
+  'Ministry of Health':[
+    {n:'Medical board registration',ic:'ti-stethoscope',p:150},{n:'Nurse registration',ic:'ti-nurse',p:100},
+    {n:'Pharmacy licence',ic:'ti-pill',p:200},{n:'Food hygiene certificate',ic:'ti-certificate',p:100},
+    {n:'Health facility registration',ic:'ti-building-hospital',p:200},{n:'Burial permit',ic:'ti-certificate',p:50},
+  ],
+  'Education':[
+    {n:'KCPE result certificate',ic:'ti-certificate',p:50},{n:'KCSE result certificate',ic:'ti-certificate',p:50},
+    {n:'Kenya Universities admission',ic:'ti-school',p:50},{n:'TVETA certificate verification',ic:'ti-certificate',p:50},
+    {n:'Teacher\'s registration (TSC)',ic:'ti-user-check',p:100},{n:'Scholarship application',ic:'ti-award',p:100},
+  ],
+  'County Services':[
+    {n:'Single business permit',ic:'ti-license',p:150},{n:'Liquor licence',ic:'ti-bottle',p:200},
+    {n:'Trade permit',ic:'ti-briefcase',p:100},{n:'Building permit',ic:'ti-building',p:200},
+    {n:'Health certificate (food)',ic:'ti-certificate',p:100},{n:'Market stall application',ic:'ti-building-store',p:80},
+    {n:'County rates payment',ic:'ti-cash',p:50},
+  ],
+  'Agriculture':[
+    {n:'Veterinary licence',ic:'ti-stethoscope',p:150},{n:'Pesticide permit',ic:'ti-certificate',p:100},
+    {n:'Export permit (KEPHIS)',ic:'ti-package',p:150},{n:'Seed certification',ic:'ti-certificate',p:100},
+    {n:'Livestock movement permit',ic:'ti-certificate',p:80},
+  ],
+};
 
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(c => c.addAll(SHELL))
-      .then(() => self.skipWaiting())
-  );
-});
+let S={
+  pcs:[
+    {id:1,name:'PC 1',busy:false,cust:'',start:null,type:'browse',mins:0,timer:null},
+    {id:2,name:'PC 2',busy:false,cust:'',start:null,type:'browse',mins:0,timer:null}
+  ],
+  txns:[],
+  inv:[],
+  stockLog:[],
+  rates:{ph:30,mc:10},
+  cfg:{name:'Techflex Cyber',loc:'Kangeta',phone:'0700-000-000'}
+};
 
-self.addEventListener('activate', evt => {
-  evt.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
+try{const d=JSON.parse(localStorage.getItem('tfx2')||'{}');
+  if(d.txns)S.txns=d.txns;
+  if(d.inv)S.inv=d.inv;
+  if(d.stockLog)S.stockLog=d.stockLog;
+  if(d.rates)S.rates=d.rates;
+  if(d.cfg)S.cfg=d.cfg;
+}catch(e){}
 
-self.addEventListener('fetch', evt => {
-  if (evt.request.method !== 'GET') return;
-  evt.respondWith(
-    caches.match(evt.request).then(cached => {
-      const fetchPromise = fetch(evt.request)
-        .then(resp => {
-          if (resp && resp.status === 200) {
-            const clone = resp.clone();
-            caches.open(CACHE_NAME).then(c => c.put(evt.request, clone));
-          }
-          return resp;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
-  );
-});
-`;
-const swBlob = new Blob([swSrc], { type: 'application/javascript' });
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register(URL.createObjectURL(swBlob))
-    .then(r => console.log('✅ SW active', r.scope))
-    .catch(e => console.log('SW info:', e.message));
+function save(){try{localStorage.setItem('tfx2',JSON.stringify({txns:S.txns,inv:S.inv,stockLog:S.stockLog,rates:S.rates,cfg:S.cfg}));}catch(e){}}
+
+const fmt=n=>'KSh '+Math.round(n).toLocaleString();
+const fmtT=d=>d.toLocaleTimeString('en-KE',{hour:'2-digit',minute:'2-digit'});
+const fmtD=d=>d.toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'});
+const fmtDur=ms=>{const m=Math.floor(ms/60000);return m>=60?Math.floor(m/60)+'h '+(m%60)+'m':m+'m';};
+const calcAmt=(start,type,mins)=>Math.max(S.rates.mc,Math.round(type==='fixed'?(mins/60)*S.rates.ph:((Date.now()-start)/3600000)*S.rates.ph));
+
+function go(p){
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));
+  document.getElementById('pg-'+p).classList.add('on');
+  document.querySelectorAll('.ni').forEach(x=>{if((x.getAttribute('onclick')||'').includes("'"+p+"'"))x.classList.add('on');});
+  if(p==='pcs')renderPCs();
+  if(p==='billing')renderBilling();
+  if(p==='reports')renderReports();
+  if(p==='rates')renderRates();
+  if(p==='services')renderSvcs();
+  if(p==='ecitizen')renderEC();
+  if(p==='inventory')renderInv();
 }
 
-let deferredPWA;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault(); deferredPWA = e;
-  document.getElementById('install-banner').classList.add('show');
-});
-function installPWA() {
-  if (!deferredPWA) {
-    addBotMsg("📱 To install: open your browser menu → 'Add to Home Screen' or 'Install App'. On Chrome/Edge desktop, look for the install icon in the address bar! 🎯");
-    if (chatOpen === false) toggleChat();
-    return;
-  }
-  deferredPWA.prompt();
-  deferredPWA.userChoice.then(() => {
-    deferredPWA = null;
-    document.getElementById('install-banner').classList.remove('show');
+function renderDash(){
+  const today=new Date().toDateString();
+  const tt=S.txns.filter(t=>new Date(t.ts).toDateString()===today);
+  const rev=tt.reduce((a,t)=>a+t.amt,0);
+  document.getElementById('d-rev').textContent=fmt(rev);
+  document.getElementById('d-sess').textContent=tt.length;
+  S.pcs.forEach(pc=>{
+    const vs=document.getElementById('d-p'+pc.id+'s');
+    const vc=document.getElementById('d-p'+pc.id+'c');
+    if(vs){vs.textContent=pc.busy?'Busy':'Free';vs.style.color=pc.busy?'#D85A30':'#1D9E75';}
+    if(vc)vc.textContent=pc.busy?pc.cust:'Available';
   });
+  const al=document.getElementById('d-active-list');
+  const active=S.pcs.filter(p=>p.busy);
+  al.innerHTML=active.length?active.map(p=>`<div class="br"><div><div style="font-weight:500;font-size:12px">${p.name} — ${p.cust}</div><div style="font-size:11px;color:var(--color-text-secondary)">Since ${fmtT(new Date(p.start))}</div></div><div style="font-size:12px;font-weight:500;color:#1D9E75">${fmt(calcAmt(p.start,p.type,p.mins))}</div></div>`).join(''):'<div class="empty">No active sessions</div>';
+  const rl=document.getElementById('d-recent-list');
+  const last=[...S.txns].reverse().slice(0,5);
+  rl.innerHTML=last.length?last.map(t=>`<div class="br"><div><div style="font-weight:500;font-size:12px">${t.cust}</div><div style="font-size:11px;color:var(--color-text-secondary)">${t.desc} · ${fmtT(new Date(t.ts))}</div></div><div style="font-size:12px;font-weight:500">${fmt(t.amt)}</div></div>`).join(''):'<div class="empty">No transactions yet</div>';
+  const low=S.inv.filter(i=>i.qty>0&&i.qty<=i.min);
+  const out=S.inv.filter(i=>i.qty<=0);
+  const sl=document.getElementById('d-stock-list');
+  const all=[...out.map(i=>`<div class="br"><i class="ti ti-alert-triangle" style="color:#A32D2D" aria-hidden="true"></i><span style="font-size:12px"><strong>${i.name}</strong> — Out of stock</span></div>`),
+             ...low.map(i=>`<div class="br"><i class="ti ti-alert-circle" style="color:#D85A30" aria-hidden="true"></i><span style="font-size:12px"><strong>${i.name}</strong> — Only ${i.qty} ${i.unit} left</span></div>`)];
+  sl.innerHTML=all.length?all.join(''):'<div class="empty">All stock levels OK</div>';
 }
-function dismissBanner() { document.getElementById('install-banner').classList.remove('show'); }
-window.addEventListener('appinstalled', () => {
-  document.getElementById('install-banner').classList.remove('show');
-  if (chatOpen) addBotMsg("🎊 Portfolio installed successfully! You're now a VIP member of the Lewis Munene fan club. The app lives on your device, works offline, and is ready whenever inspiration strikes. Welcome home! 🏠");
-});
+
+function renderPCCards(){
+  const c=document.getElementById('pcCards');
+  if(!c)return;
+  c.innerHTML=S.pcs.map(pc=>`
+  <div class="card">
+    <div class="sh">
+      <div style="display:flex;align-items:center;gap:7px"><i class="ti ti-device-desktop" style="font-size:18px;color:${pc.busy?'#D85A30':'#1D9E75'}" aria-hidden="true"></i><span style="font-size:14px;font-weight:500">${pc.name}</span></div>
+      <span class="badge ${pc.busy?'bbusy':'bfree'}">${pc.busy?'In use':'Free'}</span>
+    </div>
+    ${pc.busy?`
+    <div class="br"><span style="color:var(--color-text-secondary);font-size:12px">Customer</span><strong style="font-size:12px">${pc.cust}</strong></div>
+    <div class="br"><span style="color:var(--color-text-secondary);font-size:12px">Started</span><span style="font-size:12px">${fmtT(new Date(pc.start))}</span></div>
+    <div class="br"><span style="color:var(--color-text-secondary);font-size:12px">Type</span><span style="font-size:12px">${pc.type==='fixed'?'Fixed '+pc.mins+'m':'Pay per use'}</span></div>
+    <div class="timer" id="tmr-${pc.id}">00:00</div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <button class="btn bsm" onclick="addSvcToPC(${pc.id})"><i class="ti ti-plus" aria-hidden="true"></i> Add service</button>
+      <button class="btn bsm bd" onclick="openEnd(${pc.id})"><i class="ti ti-player-stop" aria-hidden="true"></i> End session</button>
+    </div>`:`
+    <div style="text-align:center;padding:18px 0">
+      <i class="ti ti-device-desktop" style="font-size:32px;color:var(--color-text-tertiary);display:block;margin-bottom:7px" aria-hidden="true"></i>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px">Available for use</div>
+      <button class="btn bp" onclick="openStart(${pc.id})"><i class="ti ti-player-play" aria-hidden="true"></i> Start session</button>
+    </div>`}
+  </div>`).join('');
+  S.pcs.filter(p=>p.busy).forEach(p=>startTmr(p));
+}
+
+function renderPCs(){renderPCCards();}
+
+function openStart(id){
+  document.getElementById('sm-id').value=id;
+  document.getElementById('sm-pc').textContent='PC '+id;
+  document.getElementById('sm-cust').value='';
+  document.getElementById('sm-type').value='browse';
+  document.getElementById('sm-fixrow').style.display='none';
+  document.getElementById('startModal').style.display='block';
+}
+
+function confirmStart(){
+  const id=parseInt(document.getElementById('sm-id').value);
+  const cust=document.getElementById('sm-cust').value.trim();
+  if(!cust){alert('Enter customer name');return;}
+  const type=document.getElementById('sm-type').value;
+  const mins=parseInt(document.getElementById('sm-mins').value)||30;
+  const pc=S.pcs.find(p=>p.id===id);
+  pc.busy=true;pc.cust=cust;pc.start=Date.now();pc.type=type;pc.mins=mins;
+  if(pc.timer)clearInterval(pc.timer);
+  closeMod('startModal');
+  renderPCCards();renderDash();
+}
+
+function startTmr(pc){
+  if(pc.timer)clearInterval(pc.timer);
+  pc.timer=setInterval(()=>{
+    if(!pc.busy){clearInterval(pc.timer);return;}
+    const el=document.getElementById('tmr-'+pc.id);
+    if(!el)return;
+    const ms=Date.now()-pc.start;
+    const s=Math.floor(ms/1000)%60;const m=Math.floor(ms/60000)%60;const h=Math.floor(ms/3600000);
+    el.textContent=(h>0?h+':':'')+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    const ea=document.getElementById('em-amt');
+    if(ea&&document.getElementById('endModal').style.display!=='none'){
+      const pid=parseInt(document.getElementById('em-pc').dataset.pid||'0');
+      if(pid===pc.id)ea.textContent=fmt(calcAmt(pc.start,pc.type,pc.mins));
+    }
+  },1000);
+}
+
+function openEnd(id){
+  const pc=S.pcs.find(p=>p.id===id);
+  document.getElementById('em-pc').textContent=pc.name;
+  document.getElementById('em-pc').dataset.pid=id;
+  document.getElementById('em-cust').textContent=pc.cust;
+  document.getElementById('em-dur').textContent=fmtDur(Date.now()-pc.start);
+  document.getElementById('em-amt').textContent=fmt(calcAmt(pc.start,pc.type,pc.mins));
+  document.getElementById('endModal').style.display='block';
+}
+
+function confirmEnd(){
+  const id=parseInt(document.getElementById('em-pc').dataset.pid);
+  const pc=S.pcs.find(p=>p.id===id);
+  const amt=calcAmt(pc.start,pc.type,pc.mins);
+  const pay=document.getElementById('em-pay').value;
+  S.txns.push({ts:Date.now(),cust:pc.cust,desc:pc.name+' browsing',amt,pay,cat:'browse'});
+  if(pc.timer)clearInterval(pc.timer);
+  pc.busy=false;pc.cust='';pc.start=null;pc.timer=null;
+  save();closeMod('endModal');renderPCCards();renderDash();
+}
+
+function addSvcToPC(id){
+  const pc=S.pcs.find(p=>p.id===id);
+  const svc=prompt('Add service for '+pc.cust+':\nEnter: Service name, Amount\n(e.g. Print 2 pages, 20)');
+  if(!svc)return;
+  const parts=svc.split(',');
+  const desc=parts[0]&&parts[0].trim();
+  const amt=parseInt(parts[1])||0;
+  if(desc&&amt>0){S.txns.push({ts:Date.now(),cust:pc.cust,desc,amt,pay:'Cash',cat:'service'});save();renderDash();}
+}
+
+function closeMod(id){document.getElementById(id).style.display='none';}
+
+let curSvcTab='browse';
+function sTab(t,el){
+  curSvcTab=t;
+  document.querySelectorAll('#pg-services .tab').forEach(x=>x.classList.remove('on'));
+  if(el)el.classList.add('on');
+  renderSvcs();
+}
+
+function renderSvcs(){
+  const svcs=SVC[curSvcTab]||[];
+  document.getElementById('stabs-svc').innerHTML='<div class="sg">'+svcs.map(s=>`<div class="st2" onclick="pickSvc('${s.n.replace(/'/g,"\\'")}',${s.p})"><i class="ti ${s.ic}" aria-hidden="true"></i><div class="sn">${s.n}</div><div class="sp">KSh ${s.p}/${s.u}</div></div>`).join('')+'</div>';
+  const sel=document.getElementById('sv-sel');
+  if(sel){sel.innerHTML=Object.values(SVC).flat().map(s=>`<option value="${s.p}">${s.n}</option>`).join('');}
+}
+
+function pickSvc(name,price){
+  document.getElementById('sv-cust').focus();
+  document.getElementById('sv-amt').value=price;
+  const sel=document.getElementById('sv-sel');
+  for(let o of sel.options){if(o.text===name){sel.value=o.value;break;}}
+}
+
+function svPrice(){document.getElementById('sv-amt').value=document.getElementById('sv-sel').value;}
+
+function billSvc(){
+  const cust=document.getElementById('sv-cust').value.trim();
+  const sel=document.getElementById('sv-sel');
+  const desc=sel.options[sel.selectedIndex].text;
+  const amt=parseInt(document.getElementById('sv-amt').value)||0;
+  if(!cust){alert('Enter customer name');return;}
+  if(amt<=0){alert('Enter valid amount');return;}
+  S.txns.push({ts:Date.now(),cust,desc,amt,pay:'Cash',cat:'service'});
+  save();renderDash();
+  document.getElementById('sv-cust').value='';
+  flash('pg-services','Billed '+cust+' — '+desc+': '+fmt(amt));
+}
+
+let curECTab=Object.keys(ECITIZEN)[0];
+function renderEC(){
+  const keys=Object.keys(ECITIZEN);
+  const tabEl=document.getElementById('ect-tabs');
+  tabEl.innerHTML=keys.map(k=>`<div class="tab${k===curECTab?' on':''}" onclick="ecTab('${k.replace(/'/g,"\\'")}')">${k}</div>`).join('');
+  renderECBody();
+  const sel=document.getElementById('ec-sel');
+  if(sel){sel.innerHTML=Object.values(ECITIZEN).flat().map(s=>`<option value="${s.p}">${s.n}</option>`).join('');}
+}
+
+function ecTab(k){
+  curECTab=k;
+  document.querySelectorAll('#ect-tabs .tab').forEach(x=>x.classList.toggle('on',x.textContent===k));
+  renderECBody();
+}
+
+function renderECBody(){
+  const svcs=ECITIZEN[curECTab]||[];
+  document.getElementById('ect-body').innerHTML='<div class="sg">'+svcs.map(s=>`<div class="st2" onclick="pickEC('${s.n.replace(/'/g,"\\'")}',${s.p})"><i class="ti ${s.ic}" aria-hidden="true"></i><div class="sn">${s.n}</div><div class="sp">KSh ${s.p}</div></div>`).join('')+'</div>';
+}
+
+function pickEC(name,price){
+  document.getElementById('ec-cust').focus();
+  document.getElementById('ec-amt').value=price;
+  const sel=document.getElementById('ec-sel');
+  for(let o of sel.options){if(o.text===name){sel.value=o.value;break;}}
+}
+
+function ecPrice(){document.getElementById('ec-amt').value=document.getElementById('ec-sel').value;}
+
+function billEC(){
+  const cust=document.getElementById('ec-cust').value.trim();
+  const sel=document.getElementById('ec-sel');
+  const desc=sel.options[sel.selectedIndex].text;
+  const amt=parseInt(document.getElementById('ec-amt').value)||0;
+  if(!cust){alert('Enter customer name');return;}
+  if(amt<=0){alert('Enter valid amount');return;}
+  S.txns.push({ts:Date.now(),cust,desc,amt,pay:'Cash',cat:'ecitizen'});
+  save();renderDash();
+  document.getElementById('ec-cust').value='';
+  flash('pg-ecitizen','Billed '+cust+' — '+desc+': '+fmt(amt));
+}
+
+function addBill(){
+  const cust=document.getElementById('b-cust').value.trim();
+  const desc=document.getElementById('b-desc').value.trim();
+  const amt=parseInt(document.getElementById('b-amt').value)||0;
+  const pay=document.getElementById('b-pay').value;
+  if(!cust||!desc||amt<=0){alert('Fill all fields');return;}
+  S.txns.push({ts:Date.now(),cust,desc,amt,pay,cat:'service'});
+  save();showRcpt(cust,desc,amt,pay);
+  document.getElementById('b-cust').value='';
+  document.getElementById('b-desc').value='';
+  document.getElementById('b-amt').value='';
+  renderBilling();renderDash();
+}
+
+function showRcpt(cust,desc,amt,pay){
+  const now=new Date();
+  document.getElementById('rcpt-phone').textContent=S.cfg.phone+' | '+S.cfg.loc;
+  document.getElementById('rcptBody').innerHTML=`
+  <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--color-text-secondary)">Date</span><span>${fmtD(now)}</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--color-text-secondary)">Time</span><span>${fmtT(now)}</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--color-text-secondary)">Customer</span><span>${cust}</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--color-text-secondary)">Service</span><span>${desc}</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:var(--color-text-secondary)">Payment</span><span>${pay}</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:500;border-top:0.5px solid var(--color-border-tertiary);padding-top:6px;margin-top:4px"><span>Total</span><span>${fmt(amt)}</span></div>`;
+  document.getElementById('rcptWrap').style.display='block';
+}
+
+function printR(){window.print();}
+
+function renderBilling(){
+  const today=new Date().toDateString();
+  const tt=S.txns.filter(t=>new Date(t.ts).toDateString()===today);
+  const total=tt.reduce((a,t)=>a+t.amt,0);
+  document.getElementById('b-total').textContent='Total: '+fmt(total);
+  const tb=document.getElementById('billTbl');
+  tb.innerHTML=[...tt].reverse().map((t,i)=>`<tr><td>${tt.length-i}</td><td>${fmtT(new Date(t.ts))}</td><td>${t.cust}</td><td>${t.desc}</td><td style="font-weight:500">${fmt(t.amt)}</td><td>${t.pay}</td><td><button class="btn bsm" onclick="showRcpt('${esc(t.cust)}','${esc(t.desc)}',${t.amt},'${t.pay}')"><i class="ti ti-receipt" aria-hidden="true"></i></button></td></tr>`).join('');
+  if(!tt.length)tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:18px;color:var(--color-text-tertiary)">No transactions today</td></tr>';
+}
+
+function renderReports(){
+  const today=new Date().toDateString();
+  const wk=Date.now()-7*86400000;
+  const tt=S.txns.filter(t=>new Date(t.ts).toDateString()===today);
+  const tw=S.txns.filter(t=>t.ts>=wk);
+  const rv=arr=>arr.reduce((a,t)=>a+t.amt,0);
+  document.getElementById('r-t').textContent=fmt(rv(tt));document.getElementById('r-tc').textContent=tt.length+' transactions';
+  document.getElementById('r-w').textContent=fmt(rv(tw));document.getElementById('r-wc').textContent=tw.length+' transactions';
+  document.getElementById('r-a').textContent=fmt(rv(S.txns));document.getElementById('r-ac').textContent=S.txns.length+' transactions';
+  const byCat={};S.txns.forEach(t=>{byCat[t.desc]=(byCat[t.desc]||0)+t.amt;});
+  const sorted=Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const max=sorted[0]?sorted[0][1]:1;
+  document.getElementById('r-chart').innerHTML=sorted.length?sorted.map(([k,v])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${k}</span><span style="font-weight:500">${fmt(v)}</span></div><div style="background:var(--color-background-secondary);border-radius:3px;height:5px"><div style="background:#1D9E75;border-radius:3px;height:100%;width:${Math.round(v/max*100)}%"></div></div></div>`).join(''):'<div class="empty">No data yet</div>';
+  const fl=document.getElementById('fullLog');
+  fl.innerHTML=[...S.txns].reverse().map(t=>`<tr><td>${fmtD(new Date(t.ts))}</td><td>${fmtT(new Date(t.ts))}</td><td>${t.cust}</td><td>${t.desc}</td><td>${fmt(t.amt)}</td><td>${t.pay}</td></tr>`).join('');
+  if(!S.txns.length)fl.innerHTML='<tr><td colspan="6" style="text-align:center;padding:18px;color:var(--color-text-tertiary)">No transactions</td></tr>';
+}
+
+function renderInv(){
+  const low=S.inv.filter(i=>i.qty>0&&i.qty<=i.min).length;
+  const out=S.inv.filter(i=>i.qty<=0).length;
+  const val=S.inv.reduce((a,i)=>a+i.qty*i.sell,0);
+  document.getElementById('inv-total').textContent=S.inv.length;
+  document.getElementById('inv-low-c').textContent=low;
+  document.getElementById('inv-out-c').textContent=out;
+  document.getElementById('inv-val').textContent=fmt(val);
+  const search=(document.getElementById('inv-search')||{}).value||'';
+  const filter=(document.getElementById('inv-filter')||{}).value||'';
+  const items=S.inv.filter(i=>(!filter||i.cat===filter)&&(!search||i.name.toLowerCase().includes(search.toLowerCase())));
+  const tb=document.getElementById('invTbl');
+  tb.innerHTML=items.map((it,idx)=>{
+    const status=it.qty<=0?'<span class="badge bdanger">Out</span>':it.qty<=it.min?'<span class="badge bwarn">Low</span>':'<span class="badge bfree">OK</span>';
+    return`<tr><td>${it.name}</td><td style="color:var(--color-text-secondary)">${it.cat}</td><td class="${it.qty<=it.min?'inv-low':''}">${it.qty}</td><td style="color:var(--color-text-secondary)">${it.unit}</td><td>${fmt(it.sell)}</td><td>${fmt(it.qty*it.sell)}</td><td>${status}</td><td><button class="btn bsm" onclick="restock(${S.inv.indexOf(it)})"><i class="ti ti-plus" aria-hidden="true"></i></button> <button class="btn bsm bd" onclick="delItem(${S.inv.indexOf(it)})"><i class="ti ti-trash" aria-hidden="true"></i></button></td></tr>`;
+  }).join('');
+  if(!items.length)tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:18px;color:var(--color-text-tertiary)">No items found</td></tr>';
+  const usel=document.getElementById('u-item');
+  if(usel)usel.innerHTML=S.inv.map((it,i)=>`<option value="${i}">${it.name} (${it.qty} ${it.unit})</option>`).join('');
+  const sl=document.getElementById('stockLog');
+  sl.innerHTML=[...S.stockLog].reverse().slice(0,20).map(l=>`<tr><td>${fmtD(new Date(l.ts))} ${fmtT(new Date(l.ts))}</td><td>${l.name}</td><td>${l.qty}</td><td><span class="badge ${l.type==='in'?'bfree':'bwarn'}">${l.type==='in'?'Restock':'Sale/Use'}</span></td><td>${l.rev?fmt(l.rev):'—'}</td><td>${l.cust||'—'}</td></tr>`).join('');
+  if(!S.stockLog.length)sl.innerHTML='<tr><td colspan="6" style="text-align:center;padding:14px;color:var(--color-text-tertiary)">No stock movements yet</td></tr>';
+}
+
+function addItem(){
+  const name=document.getElementById('i-name').value.trim();
+  const cat=document.getElementById('i-cat').value;
+  const qty=parseInt(document.getElementById('i-qty').value)||0;
+  const unit=document.getElementById('i-unit').value.trim()||'pc';
+  const min=parseInt(document.getElementById('i-min').value)||2;
+  const cost=parseInt(document.getElementById('i-cost').value)||0;
+  const sell=parseInt(document.getElementById('i-sell').value)||0;
+  if(!name){alert('Enter item name');return;}
+  const existing=S.inv.find(i=>i.name.toLowerCase()===name.toLowerCase());
+  if(existing){existing.qty+=qty;S.stockLog.push({ts:Date.now(),name,qty,type:'in',cust:'',rev:0});save();renderInv();flash('pg-inventory','Restocked '+name+' +'+qty+' '+unit);return;}
+  S.inv.push({name,cat,qty,unit,min,cost,sell});
+  S.stockLog.push({ts:Date.now(),name,qty,type:'in',cust:'',rev:0});
+  save();renderInv();
+  ['i-name','i-qty','i-unit','i-min','i-cost','i-sell'].forEach(id=>{document.getElementById(id).value='';});
+  flash('pg-inventory','Added '+name+' to inventory');
+}
+
+function restock(idx){
+  const it=S.inv[idx];
+  const q=parseInt(prompt('Restock "'+it.name+'"\nCurrent qty: '+it.qty+'\nAdd how many?')||'0');
+  if(q>0){it.qty+=q;S.stockLog.push({ts:Date.now(),name:it.name,qty:q,type:'in',cust:'',rev:0});save();renderInv();}
+}
+
+function delItem(idx){
+  if(!confirm('Remove "'+S.inv[idx].name+'" from inventory?'))return;
+  S.inv.splice(idx,1);save();renderInv();
+}
+
+function useItem(){
+  const idx=parseInt(document.getElementById('u-item').value);
+  const it=S.inv[idx];
+  const qty=parseInt(document.getElementById('u-qty').value)||1;
+  const cust=document.getElementById('u-cust').value.trim()||'Walk-in';
+  const price=parseInt(document.getElementById('u-price').value)||0;
+  const pay=document.getElementById('u-pay').value;
+  if(it.qty<qty){alert('Not enough stock ('+it.qty+' left)');return;}
+  it.qty-=qty;
+  const rev=price*qty;
+  S.stockLog.push({ts:Date.now(),name:it.name,qty,type:'out',cust,rev});
+  if(rev>0&&pay!=='Internal use'){S.txns.push({ts:Date.now(),cust,desc:it.name+(qty>1?' x'+qty:''),amt:rev,pay,cat:'stock'});}
+  save();renderInv();renderDash();
+  flash('pg-inventory',it.name+' used: '+qty+' '+it.unit+(rev?' | '+fmt(rev):''));
+  document.getElementById('u-qty').value=1;document.getElementById('u-cust').value='';document.getElementById('u-price').value='';
+}
+
+function renderRates(){
+  document.getElementById('r-hr').value=S.rates.ph;
+  document.getElementById('r-mc').value=S.rates.mc;
+  document.getElementById('c-name').value=S.cfg.name;
+  document.getElementById('c-loc').value=S.cfg.loc;
+  document.getElementById('c-phone').value=S.cfg.phone;
+}
+
+function saveRates(){
+  S.rates.ph=parseInt(document.getElementById('r-hr').value)||30;
+  S.rates.mc=parseInt(document.getElementById('r-mc').value)||10;
+  save();flash('pg-rates','Rates saved');
+}
+
+function saveCfg(){
+  S.cfg.name=document.getElementById('c-name').value;
+  S.cfg.loc=document.getElementById('c-loc').value;
+  S.cfg.phone=document.getElementById('c-phone').value;
+  save();flash('pg-rates','Settings saved');
+}
+
+function clearAll(){if(!confirm('Delete ALL transaction history?'))return;S.txns=[];save();renderReports();}
+
+function flash(pgId,msg){
+  const a=document.createElement('div');a.className='alert aok';a.innerHTML=`<i class="ti ti-check" aria-hidden="true"></i>${msg}`;
+  const pg=document.getElementById(pgId);if(pg){pg.prepend(a);setTimeout(()=>a.remove(),3000);}
+}
+
+function esc(s){return(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+
+function clockTick(){
+  const n=new Date();
+  const ce=document.getElementById('clockEl');
+  if(ce)ce.textContent=n.toLocaleTimeString('en-KE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const tl=document.getElementById('todayLbl');
+  if(tl)tl.textContent=n.toLocaleDateString('en-KE',{weekday:'short',day:'numeric',month:'short'});
+}
+
+setInterval(clockTick,1000);clockTick();
+setInterval(renderDash,5000);
+renderDash();
+renderSvcs();
+renderBilling();
 </script>
-</body>
-</html>
